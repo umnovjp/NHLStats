@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #MovieReviews
 
 in this project entitled "Movie Reviews" it utilizes information from openly available online databases to pull down small lists of movies according to their genres.
@@ -48,3 +49,6 @@ Live page is approved at https://johnpaulgeorgeringo.github.io/MovieReviews/. Bu
 
 
 Thanks for reading
+=======
+# NHLStats
+>>>>>>> 66ac4d19e30f1e592df06f9e7d1c50dbcf4a4fa9
