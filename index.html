@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head class = 'header'>
+
+    <meta charset="UTF-8">
+    <title>Awesome Movie Finder</title>
+    <link rel="stylesheet" href="./assets/style.css">
+
+  </head>
+
+  <body>
+    
+    <header style="height: 250px;">
+      <h1 style="text-align:center" id = 'top5D'>Movie Recommendations </h1>
+      <h2 style="text-align:center">Click banners below to rent these movies at Redbox or buy them at Amazon.com</h2>
+      <div>
+        <button class = 'yearEntry' style = "background-image: url('./assets/redbox_logo.png');" onclick ="window.location.href = 'https://www.redbox.com';"></button>
+        <button class = 'yearEntry' style = "background-image: url('./assets/amazon_logo2.png');" onclick ="window.location.href = 'https://www.amazon.com';" ></button>
+      </div><br>
+    </header>
+    
+    <p> </p>
+    <div class="sidenav">
+      <a href="#drama">Drama</a>
+      <a href="#families">Family</a>
+      <a href="#thrillers">Thriller</a>
+      <a href="#comedies">Comedy</a>
+      <a href="action">Action</a>
+    </div>
+    <section>
+
+  
+    <!--this input is for future use. it will allow user to enter year, which is now set to 2021-->
+    <div style = "background-image: url('./assets/background.jpg');" class="main">
+
+      <div>
+        <p>Enter 2021 for now. Date entry will be here in the future</p>
+        <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
+          <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
+      </div>
+     
+      <div id = 'input2'>
+        
+        <button class = 'searchParameter' id = 'dramaImdbButton' value  = 'Drama'>Print Penalities</button>
+        <button class = 'searchParameter' id = 'familyImdbButton' value = 'Family'>Print Goals</button>
+        <button class = 'searchParameter' id = 'thrillerImdbButton' value = 'Thriller'>Search IMDB Thrillers</button>
+        <button class = 'searchParameter' id = 'comedyImdbButton' value = 'Comedy'>Search IMDB Comedy</button>
+        <button class = 'searchParameter' id = 'actionImdbButton' value = 'Action'>Search IMDB Action</button>
+        
+
+        
+      </div> <!--this div creates input area to enter search parameters-->
+      
+      <h3 id = 'drama'>Penalties</h3>
+      <div id = 'boxOfDVDsDrama'></div>      
+
+      <h3 id = 'cfamilies'>All Goals</h3>
+        <div id = 'boxOfDVDsFamily'></div>
+        <h3 id = 'thrillers'>Top 5 thrillers</h3>
+        <div id = 'boxOfDVDsThriller'></div>
+
+        <h3 id = 'comedies'>Top 5 comedies</h3>
+        <div id = 'boxOfDVDsComedy'></div>
+
+        <h3 id = 'action'>Top 5 action movies</h3>
+        <div id = 'boxOfDVDsAction'></div>
+    
+    </div>
+  </section>
+
+    <script src = "./assets/script.js"></script>
+
+  </body>
+
+</html>
