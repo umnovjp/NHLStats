@@ -5,7 +5,7 @@
 <head class = 'header'>
 
     <meta charset="UTF-8">
-    <title>Awesome Movie Finder</title>
+    <title>Awesome NHL Game Analysis</title>
     <link rel="stylesheet" href="./assets/style.css">
 
   </head>
@@ -13,7 +13,7 @@
   <body>
     
     <header style="height: 250px;">
-      <h1 style="text-align:center" id = 'top5D'>Movie Recommendations </h1>
+      <h1 style="text-align:center" id = 'top5D'>Game Stats </h1>
       <h2 style="text-align:center">Click banners below to rent these movies at Redbox or buy them at Amazon.com</h2>
       <div>
         <button class = 'yearEntry' style = "background-image: url('./assets/redbox_logo.png');" onclick ="window.location.href = 'https://www.redbox.com';"></button>
@@ -23,6 +23,7 @@
     
     <p> </p>
     <div class="sidenav">
+      <h2>this tab is not functioning it is for future use</h2>
       <a href="#drama">Drama</a>
       <a href="#families">Family</a>
       <a href="#thrillers">Thriller</a>
@@ -36,7 +37,7 @@
     <div style = "background-image: url('./assets/background.jpg');" class="main">
 
       <div>
-        <p>Enter 2021 for now. Date entry will be here in the future</p>
+        <p>Do not enter anything here. Date entry will be here in the future</p>
         <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
           <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
       </div>
@@ -53,10 +54,10 @@
         
       </div> <!--this div creates input area to enter search parameters-->
       
-      <h3 id = 'drama'>Penalties</h3>
+      <h3 id = 'drama'>Penalties - penalty location figure will be added</h3>
       <div id = 'boxOfDVDsDrama'></div>      
 
-      <h3 id = 'cfamilies'>All Goals</h3>
+      <h3 id = 'cfamilies'>All Goals - shot location figure will be added</h3>
         <div id = 'boxOfDVDsFamily'></div>
         <h3 id = 'thrillers'>Top 5 thrillers</h3>
         <div id = 'boxOfDVDsThriller'></div>

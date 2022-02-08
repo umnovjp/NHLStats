@@ -64,11 +64,27 @@ function getPenalties(event) {
       console.log(data.gameData.teams.away.name);
       console.log(data.gameData.teams.home.name);
 
+      console.log(data.gameData.teams.away.id);
+      console.log(data.gameData.teams.home.id);
+
+      awayTeam = data.gameData.teams.away.id;
+      homeTeam = data.gameData.teams.home.id;
+
       var awayTeam = document.createElement('p');
       awayTeam.innerHTML = data.gameData.teams.away.name + ' vs ' + data.gameData.teams.home.name;
       document.getElementById('input2').appendChild(awayTeam);
 
       console.log(data.gameData.players);
+   //   console.log(data.gameData.players.keys);
+      var obj = data.gameData.players;
+      var keys = Object.keys(obj);
+
+for (var i = 0; i < keys.length; i++) {
+    var val = obj[keys[i]];
+    // use val
+    console.log(val.fullName + ' ' + val.currentTeam.name)
+}
+
       console.log(data.liveData.decisions);
       console.log(data.liveData.linescore);
       
@@ -86,12 +102,19 @@ function getPenalties(event) {
        console.log(data.liveData.plays.allPlays[penaltyPlay].team);
 
      //  for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++)
+     var penaltyData = document.createElement('p');
+     
+     penaltyData.innerHTML =  ' Period: ' + data.liveData.plays.allPlays[penaltyPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[penaltyPlay].about.periodTime + ', ' + data.liveData.plays.allPlays[penaltyPlay].result.penaltyMinutes + ' minutes, '+ 'Penalty Location: ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.y;
+          document.getElementById('boxOfDVDsDrama').appendChild(penaltyData);
 
        for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++){
          console.log('in j loop');
-       var penaltyEvent = document.createElement('p');
-          penaltyEvent.innerHTML = data.liveData.plays.allPlays[penaltyPlay].players[j].playerType + ' ' + data.liveData.plays.allPlays[penaltyPlay].players[j].player.fullName + ' Period: ' + data.liveData.plays.allPlays[penaltyPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[penaltyPlay].about.periodTime;
-          document.getElementById('boxOfDVDsDrama').appendChild(penaltyEvent);
+      //  var penaltyEvent = document.createElement('span');
+          // penaltyEvent.innerHTML = ' ' + data.liveData.plays.allPlays[penaltyPlay].players[j].playerType + ' ' + data.liveData.plays.allPlays[penaltyPlay].players[j].player.fullName;
+          // document.getElementById('boxOfDVDsDrama').appendChild(penaltyEvent);
+          var penaltyEvent2 = document.createElement('span');
+          penaltyEvent2.innerHTML = data.liveData.plays.allPlays[penaltyPlay].result.description;
+          document.getElementById('boxOfDVDsDrama').appendChild(penaltyEvent2);
           // var penaltyData = document.createElement('p');
           // penaltyData.innerHTML = ;
           // document.getElementById('boxOfDVDsDrama').appendChild(penaltyData);
@@ -209,7 +232,7 @@ function getGoals(event) {
      //   console.log(data.liveData.plays.allPlays[scoringPlay].players);
 
      var newGoal = document.createElement('p');
-     newGoal.innerHTML = 'Score: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime;
+     newGoal.innerHTML = 'Period: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime + ' Score: ' + data.liveData.plays.allPlays[scoringPlay].about.goals.away + ' : ' + data.liveData.plays.allPlays[scoringPlay].about.goals.home + ' Shot Location: ' + data.liveData.plays.allPlays[scoringPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[scoringPlay].coordinates.y;
      document.getElementById('boxOfDVDsFamily').appendChild(newGoal);
 
      
@@ -218,7 +241,8 @@ function getGoals(event) {
         {
     //      console.log(data.liveData.plays.allPlays[scoringPlay].players[j].playerType);
      //     console.log(data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName);
-          var goalEvent = document.createElement('p');
+     var goalEvent = document.createElement('span');
+
           goalEvent.innerHTML = 'Name: ' + data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName + ' Type: ' + data.liveData.plays.allPlays[scoringPlay].players[j].playerType;
           document.getElementById('boxOfDVDsFamily').appendChild(goalEvent);
           // var goalData = document.createElement('p');
