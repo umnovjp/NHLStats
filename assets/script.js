@@ -293,7 +293,7 @@ function getShifts(event) {
   var genre = event.currentTarget.value;
   console.log(genre);
 
-  var requestURL = 'http://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
+  var requestURL = 'https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
   fetch(requestURL, {
     "method": "GET", "headers": {
     }
