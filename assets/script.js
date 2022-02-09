@@ -23,34 +23,35 @@ var comedyCount = 0;
 var actionCount = 0;
 
 // two lines below will allow user to search by year
-function getInputValue() {var inputVal = document.getElementById('myInput').value;
-console.log('inputVal'+inputVal);
-console.log(typeof inputVal);
-inputYear = parseInt(inputVal);
-console.log('inputYear'+inputYear);
+function getInputValue() {
+  var inputVal = document.getElementById('myInput').value;
+  console.log('inputVal' + inputVal);
+  console.log(typeof inputVal);
+  inputYear = parseInt(inputVal);
+  console.log('inputYear' + inputYear);
 }
 
 localStorage.setItem('inputYear', inputVal);
 console.log('outside finction ' + inputYear);
 fetchPenalties.addEventListener('click', getPenalties);
 fetchImdbFamily.addEventListener('click', getGoals);
-fetchImdbThriller.addEventListener('click', getPenalties);
-fetchImdbComedy.addEventListener('click', getPenalties);
+fetchImdbThriller.addEventListener('click', getRoster);
+fetchImdbComedy.addEventListener('click', getShifts);
 fetchImdbAction.addEventListener('click', getPenalties);
 
 function getPenalties(event) {
   var genre = event.currentTarget.value;
   console.log(genre);
   // three lines below are supposed to add year to the header but they do it multiple times if I click multiple buttons. disabled for now
-//   var movieYear = document.createElement('span');
-// movieYear.innerHTML = inputYear;
-// document.getElementById('top5D').appendChild(movieYear);
+  //   var movieYear = document.createElement('span');
+  // movieYear.innerHTML = inputYear;
+  // document.getElementById('top5D').appendChild(movieYear);
 
   var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/2021020722/feed/live';
   fetch(requestURL, {
     "method": "GET", "headers": {
-   //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
-   //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
+      //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
+      //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
     }
   })
 
@@ -59,57 +60,46 @@ function getPenalties(event) {
     })
     .then(function (data) {
       console.log('I am in second then')
-      // console.log(data);
-      
-      console.log(data.gameData.teams.away.name);
-      console.log(data.gameData.teams.home.name);
 
-      console.log(data.gameData.teams.away.id);
-      console.log(data.gameData.teams.home.id);
-
-      awayTeam = data.gameData.teams.away.id;
-      homeTeam = data.gameData.teams.home.id;
+      awayTeam1 = data.gameData.teams.away.id;
+      homeTeam1 = data.gameData.teams.home.id;
 
       var awayTeam = document.createElement('p');
       awayTeam.innerHTML = data.gameData.teams.away.name + ' vs ' + data.gameData.teams.home.name;
       document.getElementById('input2').appendChild(awayTeam);
 
       console.log(data.gameData.players);
-   //   console.log(data.gameData.players.keys);
+      //   console.log(data.gameData.players.keys);
       var obj = data.gameData.players;
       var keys = Object.keys(obj);
 
-for (var i = 0; i < keys.length; i++) {
-    var val = obj[keys[i]];
-    // use val
-    console.log(val.fullName + ' ' + val.currentTeam.name)
-}
+
 
       console.log(data.liveData.decisions);
       console.log(data.liveData.linescore);
-      
+
       console.log(data.liveData.plays.allPlays.length);
       console.log(data.liveData.plays.penaltyPlays.length);
       console.log(data.liveData.plays.scoringPlays.length);
 
       for (i = 0; i < data.liveData.plays.penaltyPlays.length; i++) {
         penaltyPlay = data.liveData.plays.penaltyPlays[i];
-       // console.log(data.liveData.plays.penaltyPlays[i]);
-       console.log(data.liveData.plays.allPlays[penaltyPlay].about);
-       console.log(data.liveData.plays.allPlays[penaltyPlay].coordinates);
-       console.log(data.liveData.plays.allPlays[penaltyPlay].players);
-       console.log(data.liveData.plays.allPlays[penaltyPlay].result);
-       console.log(data.liveData.plays.allPlays[penaltyPlay].team);
+        // console.log(data.liveData.plays.penaltyPlays[i]);
+        //  console.log(data.liveData.plays.allPlays[penaltyPlay].about);
+        //  console.log(data.liveData.plays.allPlays[penaltyPlay].coordinates);
+        //  console.log(data.liveData.plays.allPlays[penaltyPlay].players);
+        //  console.log(data.liveData.plays.allPlays[penaltyPlay].result);
+        //  console.log(data.liveData.plays.allPlays[penaltyPlay].team);
 
-     //  for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++)
-     var penaltyData = document.createElement('p');
-     
-     penaltyData.innerHTML =  ' Period: ' + data.liveData.plays.allPlays[penaltyPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[penaltyPlay].about.periodTime + ', ' + data.liveData.plays.allPlays[penaltyPlay].result.penaltyMinutes + ' minutes, '+ 'Penalty Location: ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.y;
-          document.getElementById('boxOfDVDsDrama').appendChild(penaltyData);
+        //  for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++)
+        var penaltyData = document.createElement('p');
 
-       for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++){
-         console.log('in j loop');
-      //  var penaltyEvent = document.createElement('span');
+        penaltyData.innerHTML = ' Period: ' + data.liveData.plays.allPlays[penaltyPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[penaltyPlay].about.periodTime + ', ' + data.liveData.plays.allPlays[penaltyPlay].result.penaltyMinutes + ' minutes, ' + 'Penalty Location: ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.y;
+        document.getElementById('boxOfDVDsDrama').appendChild(penaltyData);
+
+        for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++) {
+          console.log('in j loop');
+          //  var penaltyEvent = document.createElement('span');
           // penaltyEvent.innerHTML = ' ' + data.liveData.plays.allPlays[penaltyPlay].players[j].playerType + ' ' + data.liveData.plays.allPlays[penaltyPlay].players[j].player.fullName;
           // document.getElementById('boxOfDVDsDrama').appendChild(penaltyEvent);
           var penaltyEvent2 = document.createElement('span');
@@ -118,11 +108,11 @@ for (var i = 0; i < keys.length; i++) {
           // var penaltyData = document.createElement('p');
           // penaltyData.innerHTML = ;
           // document.getElementById('boxOfDVDsDrama').appendChild(penaltyData);
-            
-        }
-       }
 
- //      for all plays, uncomment lines 96,97, 170
+        }
+      }
+
+      //      for all plays, uncomment lines 96,97, 170
       // for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
       //   console.log(data.liveData.plays.allPlays[i]);
 
@@ -204,16 +194,12 @@ for (var i = 0; i < keys.length; i++) {
 function getGoals(event) {
   var genre = event.currentTarget.value;
   console.log(genre);
-  // three lines below are supposed to add year to the header but they do it multiple times if I click multiple buttons. disabled for now
-//   var movieYear = document.createElement('span');
-// movieYear.innerHTML = inputYear;
-// document.getElementById('top5D').appendChild(movieYear);
 
   var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/2021020722/feed/live';
   fetch(requestURL, {
     "method": "GET", "headers": {
-   //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
-   //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
+      //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
+      //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
     }
   })
 
@@ -223,25 +209,24 @@ function getGoals(event) {
     .then(function (data) {
       console.log('I am in second then')
       // console.log(data);
-      
+
       console.log(data.gameData.teams.away.name);
       console.log(data.gameData.teams.home.name);
 
-       for (i = 0; i < data.liveData.plays.scoringPlays.length; i++) {
+      for (i = 0; i < data.liveData.plays.scoringPlays.length; i++) {
         scoringPlay = data.liveData.plays.scoringPlays[i];
-     //   console.log(data.liveData.plays.allPlays[scoringPlay].players);
+        //   console.log(data.liveData.plays.allPlays[scoringPlay].players);
 
-     var newGoal = document.createElement('p');
-     newGoal.innerHTML = 'Period: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime + ' Score: ' + data.liveData.plays.allPlays[scoringPlay].about.goals.away + ' : ' + data.liveData.plays.allPlays[scoringPlay].about.goals.home + ' Shot Location: ' + data.liveData.plays.allPlays[scoringPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[scoringPlay].coordinates.y;
-     document.getElementById('boxOfDVDsFamily').appendChild(newGoal);
+        var newGoal = document.createElement('p');
+        newGoal.innerHTML = 'Period: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime + ' Score: ' + data.liveData.plays.allPlays[scoringPlay].about.goals.away + ' : ' + data.liveData.plays.allPlays[scoringPlay].about.goals.home + ' Shot Location: ' + data.liveData.plays.allPlays[scoringPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[scoringPlay].coordinates.y;
+        document.getElementById('boxOfDVDsFamily').appendChild(newGoal);
 
-     
+
         // console.log(data.liveData.plays.penaltyPlays[i]);
-        for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++)
-        {
-    //      console.log(data.liveData.plays.allPlays[scoringPlay].players[j].playerType);
-     //     console.log(data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName);
-     var goalEvent = document.createElement('span');
+        for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
+          //      console.log(data.liveData.plays.allPlays[scoringPlay].players[j].playerType);
+          //     console.log(data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName);
+          var goalEvent = document.createElement('span');
 
           goalEvent.innerHTML = 'Name: ' + data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName + ' Type: ' + data.liveData.plays.allPlays[scoringPlay].players[j].playerType;
           document.getElementById('boxOfDVDsFamily').appendChild(goalEvent);
@@ -254,8 +239,97 @@ function getGoals(event) {
         console.log(data.liveData.plays.allPlays[scoringPlay].about);
         console.log(data.liveData.plays.allPlays[scoringPlay].coordinates);
         console.log(data.liveData.plays.allPlays[scoringPlay].team);
-       }
+      }
     });
 }
 
 
+function getRoster(event) {
+  var genre = event.currentTarget.value;
+  console.log(genre);
+
+  var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/2021020722/feed/live';
+  fetch(requestURL, {
+    "method": "GET", "headers": {
+    }
+  })
+
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log('I am in second then')
+
+      var obj = data.gameData.players;
+      var keys = Object.keys(obj);
+
+      var awayRoster = document.createElement('h2');
+      awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
+      awayRoster.setAttribute('id', 'awayTeamId');
+      document.getElementById('input2').appendChild(awayRoster);
+
+      var homeRoster = document.createElement('h2');
+        homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
+        homeRoster.setAttribute('id', 'homeTeamId');
+        document.getElementById('input2').appendChild(homeRoster);
+
+      for (var i = 0; i < keys.length; i++) {
+        var val = obj[keys[i]];
+        
+        var playerName = document.createElement('p');
+        playerName.innerHTML = val.fullName + ', ';
+        if (val.currentTeam.id == data.gameData.teams.away.id) {
+          document.getElementById('awayTeamId').appendChild(playerName);
+        }
+        else if (val.currentTeam.id == data.gameData.teams.home.id) {
+      //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
+          document.getElementById('homeTeamId').appendChild(playerName);
+        }
+      }
+    });
+}
+
+function getShifts(event) {
+  var genre = event.currentTarget.value;
+  console.log(genre);
+
+  var requestURL = 'http://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
+  fetch(requestURL, {
+    "method": "GET", "headers": {
+    }
+  })
+
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+
+      // var obj = data.gameData.players;
+      // var keys = Object.keys(obj);
+
+      // var awayRoster = document.createElement('h2');
+      // awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
+      // awayRoster.setAttribute('id', 'awayTeamId');
+      // document.getElementById('input2').appendChild(awayRoster);
+
+      // var homeRoster = document.createElement('h2');
+      //   homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
+      //   homeRoster.setAttribute('id', 'homeTeamId');
+      //   document.getElementById('input2').appendChild(homeRoster);
+
+      // for (var i = 0; i < keys.length; i++) {
+      //   var val = obj[keys[i]];
+        
+      //   var playerName = document.createElement('p');
+      //   playerName.innerHTML = val.fullName + ', ';
+      //   if (val.currentTeam.id == data.gameData.teams.away.id) {
+      //     document.getElementById('awayTeamId').appendChild(playerName);
+      //   }
+      //   else if (val.currentTeam.id == data.gameData.teams.home.id) {
+      // //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
+      //     document.getElementById('homeTeamId').appendChild(playerName);
+      //   }
+      // }
+    });
+}
