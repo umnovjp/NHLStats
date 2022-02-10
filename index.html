@@ -7,6 +7,15 @@
     <meta charset="UTF-8">
     <title>Awesome NHL Game Analysis</title>
     <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
 
   </head>
 
@@ -41,6 +50,7 @@
         <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
           <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
       </div>
+      <p>Date: <input type="text" id="datepicker" onmouseenter = 'getInputValue();''></p>
      
       <div id = 'input2'>
         
@@ -57,7 +67,7 @@
 
       <h3 id = 'cfamilies'>All Goals - shot location figure will be added</h3>
         <div id = 'boxOfDVDsFamily'></div>
-        <h3 id = 'thrillers'>Top 5 thrillers</h3>
+        <h3 id = 'thrillers'>Rosters</h3>
         <div id = 'boxOfDVDsThriller'></div>
 
         <h3 id = 'comedies'>Top 5 comedies</h3>

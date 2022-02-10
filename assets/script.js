@@ -24,15 +24,20 @@ var actionCount = 0;
 
 // two lines below will allow user to search by year
 function getInputValue() {
-  var inputVal = document.getElementById('myInput').value;
-  console.log('inputVal' + inputVal);
-  console.log(typeof inputVal);
-  inputYear = parseInt(inputVal);
-  console.log('inputYear' + inputYear);
+  // var inputVal = document.getElementById('myInput').value;
+  var inputVal = document.getElementById('datepicker').value;
+  console.log('inputVal= ' + inputVal);
+  
+  var date = inputVal.split('/');
+  console.log(date);
+  var formatted = date[2] + '-' + date[0] + '-' + date[1];
+  console.log(formatted)
+ // inputYear = parseInt(inputVal);
+//  console.log('inputYear' + inputYear);
 }
 
-localStorage.setItem('inputYear', inputVal);
-console.log('outside finction ' + inputYear);
+//localStorage.setItem('inputYear', inputVal);
+//console.log('outside finction ' + inputYear);
 fetchPenalties.addEventListener('click', getPenalties);
 fetchImdbFamily.addEventListener('click', getGoals);
 fetchImdbThriller.addEventListener('click', getRoster);
@@ -266,12 +271,12 @@ function getRoster(event) {
       var awayRoster = document.createElement('h2');
       awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
       awayRoster.setAttribute('id', 'awayTeamId');
-      document.getElementById('input2').appendChild(awayRoster);
+      document.getElementById('boxOfDVDsThriller').appendChild(awayRoster);
 
       var homeRoster = document.createElement('h2');
         homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
         homeRoster.setAttribute('id', 'homeTeamId');
-        document.getElementById('input2').appendChild(homeRoster);
+        document.getElementById('boxOfDVDsThriller').appendChild(homeRoster);
 
       for (var i = 0; i < keys.length; i++) {
         var val = obj[keys[i]];
@@ -290,11 +295,9 @@ function getRoster(event) {
 }
 
 function getShifts(event) {
-  var genre = event.currentTarget.value;
-  console.log(genre);
-
   var requestURL = 'https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
-  fetch(requestURL, {
+  fetch(requestURL, {"mode": "cors",
+  
     "method": "GET", "headers": {
     }
   })
