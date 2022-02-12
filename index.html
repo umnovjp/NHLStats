@@ -23,10 +23,9 @@
     
     <header style="height: 250px;">
       <h1 style="text-align:center" id = 'top5D'>Game Stats </h1>
-      <h2 style="text-align:center">Click banners below to rent these movies at Redbox or buy them at Amazon.com</h2>
+      <h2 style="text-align:center">Tired of Razor and josh telling Stars fans that today we played against the best team in NHL? Check my advanced stats page</h2>
       <div>
-        <button class = 'yearEntry' style = "background-image: url('./assets/redbox_logo.png');" onclick ="window.location.href = 'https://www.redbox.com';"></button>
-        <button class = 'yearEntry' style = "background-image: url('./assets/amazon_logo2.png');" onclick ="window.location.href = 'https://www.amazon.com';" ></button>
+        <button class = 'yearEntry' style = "background-image: url('./assets/NHL-Logo.png');" onclick ="window.location.href = 'https://www.nhl.com';"></button>
       </div><br>
     </header>
     
@@ -50,7 +49,8 @@
         <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
           <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
       </div>
-      <p>Date: <input type="text" id="datepicker" onmouseenter = 'getInputValue();''></p>
+      <p>Date: <input type="text" id="datepicker" onclick = 'getInputValue();''></p>
+      <div id = 'schedule'></div>
      
       <div id = 'input2'>
         

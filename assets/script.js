@@ -10,17 +10,14 @@ var listOfMoviesImdbComedy = document.getElementById('boxOfDVDsComedy');
 var fetchImdbComedy = document.getElementById('comedyImdbButton');
 var listOfMoviesImdbAction = document.getElementById('boxOfDVDsAction');
 var fetchImdbAction = document.getElementById('actionImdbButton');
+var scheduleContent = document.getElementById('schedule');
+
 // var enterYear0 = document.getElementById('enterYear');
 var movieTitle;
 var object1;
 var inputVal = '2021';
 var inputYear = 2021;
 //these five variables are created to display movies 5-9, 10-14, etc. They do not work yet
-var dramaCount = 0;
-var familyCount = 0;
-var thrillerCount = 0;
-var comedyCount = 0;
-var actionCount = 0;
 
 // two lines below will allow user to search by year
 function getInputValue() {
@@ -32,9 +29,49 @@ function getInputValue() {
   console.log(date);
   var formatted = date[2] + '-' + date[0] + '-' + date[1];
   console.log(formatted)
+  var requestURL = 'https://statsapi.web.nhl.com/api/v1/schedule/?date=' + formatted;
+  console.log(requestURL);
+  fetch(requestURL, {
+    "method": "GET", "headers": {
+    }
+  })
+
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log('I am in schedule then')
+console.log(data.dates[0].games);
+console.log(data.dates[0].games[0].teams.away.leagueRecord);
+var numberOfGames = data.dates[0].games.length;
+      // var obj = data.gameData.players;
+      // var keys = Object.keys(obj);
+      scheduleContent.textContent = ''; 
+      for (var i = 0; i < numberOfGames; i++) {
+             
+        var gameName = document.createElement('button');
+        gameName.setAttribute('id', 'game' + i); 
+        var idx = gameName.getAttribute('id');
+        console.log(idx);       
+        gameName.innerHTML = data.dates[0].games[i].teams.away.team.name + ' ' + data.dates[0].games[i].teams.away.leagueRecord.wins + 'W ' + data.dates[0].games[i].teams.away.leagueRecord.losses + 'L ' +  data.dates[0].games[i].teams.away.leagueRecord.ot + 'O vs ' + data.dates[0].games[i].teams.home.team.name + ' ' + data.dates[0].games[i].teams.home.leagueRecord.wins + 'W ' + data.dates[0].games[i].teams.home.leagueRecord.losses + 'L ' + data.dates[0].games[i].teams.home.leagueRecord.ot + 'O ' ;
+        document.getElementById('schedule').appendChild(gameName);   
+        gameName.addEventListener('click', displayGameData);
+      }
+      function displayGameData() {
+        var idx = gameName.getAttribute('id');
+        console.log(idx); 
+      }
+    });
  // inputYear = parseInt(inputVal);
 //  console.log('inputYear' + inputYear);
 }
+
+
+// var button0 = document.getElementById('#game0');
+// var button1 = document.getElementById('#game1');
+
+// button0.addEventListener('click', displayGameData);
+// button1.addEventListener('click', displayGameData);
 
 //localStorage.setItem('inputYear', inputVal);
 //console.log('outside finction ' + inputYear);
