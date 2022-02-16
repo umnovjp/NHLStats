@@ -87,6 +87,12 @@ goalButton.textContent = 'Print Goals';
 document.getElementById('gameInfo').appendChild(goalButton);
 goalButton.addEventListener('click', getGoals);
 
+var rosterButton = document.createElement('button');
+rosterButton.setAttribute('class', 'searchParameter');
+rosterButton.textContent = 'Print Rosters';
+document.getElementById('gameInfo').appendChild(rosterButton);
+rosterButton.addEventListener('click', getRoster);
+
           });
           function getGoals(event) {
             var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
@@ -99,7 +105,10 @@ goalButton.addEventListener('click', getGoals);
                 return response.json();
               })
               .then(function (data) {
-                console.log('I am in second goal then')
+                var goalTitle = document.createElement('h3');
+                goalTitle.setAttribute('id', 'drama');
+                goalTitle.innerHTML = 'Goals - shot location figure will be added';
+                document.getElementById('gameInfo').appendChild(goalTitle);
           
                 for (i = 0; i < data.liveData.plays.scoringPlays.length; i++) {
                   scoringPlay = data.liveData.plays.scoringPlays[i];
@@ -170,6 +179,50 @@ goalButton.addEventListener('click', getGoals);
                 }
               });
           }
+          function getRoster(event) {
+            var genre = event.currentTarget.value;
+            console.log(genre);
+          
+            var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+            fetch(requestURL, {
+              "method": "GET", "headers": {
+              }
+            })
+          
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                console.log(data.gameData.players)
+          
+                var obj = data.gameData.players;
+                var keys = Object.keys(obj);
+          
+                var awayRoster = document.createElement('h2');
+                awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
+                awayRoster.setAttribute('id', 'awayTeamId');
+                document.getElementById('boxOfDVDsThriller').appendChild(awayRoster);
+          
+                var homeRoster = document.createElement('h2');
+                homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
+                homeRoster.setAttribute('id', 'homeTeamId');
+                document.getElementById('boxOfDVDsThriller').appendChild(homeRoster);
+          
+                for (var i = 0; i < keys.length; i++) {
+                  var val = obj[keys[i]];
+          
+                  var playerName = document.createElement('p');
+                  playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' shoots:' + val.shootsCatches;
+                  if (val.currentTeam.id == data.gameData.teams.away.id) {
+                    document.getElementById('awayTeamId').appendChild(playerName);
+                  }
+                  else if (val.currentTeam.id == data.gameData.teams.home.id) {
+                    //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
+                    document.getElementById('homeTeamId').appendChild(playerName);
+                  }
+                }
+              });
+          }
       }}
     );
 }
@@ -227,57 +280,59 @@ goalButton.addEventListener('click', getGoals);
 //     });
 // }
 
-function getRoster(event) {
-  var genre = event.currentTarget.value;
-  console.log(genre);
+// function getRoster(event) {
+//   var genre = event.currentTarget.value;
+//   console.log(genre);
 
-  var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/2021020722/feed/live';
-  fetch(requestURL, {
-    "method": "GET", "headers": {
-    }
-  })
+//   var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/2021020722/feed/live';
+//   fetch(requestURL, {
+//     "method": "GET", "headers": {
+//     }
+//   })
 
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log('I am in second then')
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       console.log('I am in second then')
 
-      var obj = data.gameData.players;
-      var keys = Object.keys(obj);
+//       var obj = data.gameData.players;
+//       var keys = Object.keys(obj);
 
-      var awayRoster = document.createElement('h2');
-      awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
-      awayRoster.setAttribute('id', 'awayTeamId');
-      document.getElementById('boxOfDVDsThriller').appendChild(awayRoster);
+//       var awayRoster = document.createElement('h2');
+//       awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
+//       awayRoster.setAttribute('id', 'awayTeamId');
+//       document.getElementById('boxOfDVDsThriller').appendChild(awayRoster);
 
-      var homeRoster = document.createElement('h2');
-      homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
-      homeRoster.setAttribute('id', 'homeTeamId');
-      document.getElementById('boxOfDVDsThriller').appendChild(homeRoster);
+//       var homeRoster = document.createElement('h2');
+//       homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
+//       homeRoster.setAttribute('id', 'homeTeamId');
+//       document.getElementById('boxOfDVDsThriller').appendChild(homeRoster);
 
-      for (var i = 0; i < keys.length; i++) {
-        var val = obj[keys[i]];
+//       for (var i = 0; i < keys.length; i++) {
+//         var val = obj[keys[i]];
 
-        var playerName = document.createElement('p');
-        playerName.innerHTML = val.fullName + ', ';
-        if (val.currentTeam.id == data.gameData.teams.away.id) {
-          document.getElementById('awayTeamId').appendChild(playerName);
-        }
-        else if (val.currentTeam.id == data.gameData.teams.home.id) {
-          //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
-          document.getElementById('homeTeamId').appendChild(playerName);
-        }
-      }
-    });
-}
+//         var playerName = document.createElement('p');
+//         playerName.innerHTML = val.fullName + ', ';
+//         if (val.currentTeam.id == data.gameData.teams.away.id) {
+//           document.getElementById('awayTeamId').appendChild(playerName);
+//         }
+//         else if (val.currentTeam.id == data.gameData.teams.home.id) {
+//           //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
+//           document.getElementById('homeTeamId').appendChild(playerName);
+//         }
+//       }
+//     });
+// }
 
 function getShifts(event) {
   var requestURL = 'https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
   fetch(requestURL, {
-    "mode": "cors",
+   "mode": "no-cors",
 
     "method": "GET", "headers": {
+      'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '192.168.254.18'
     }
   })
 
@@ -285,7 +340,7 @@ function getShifts(event) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      console.log(data.data);
 
       // var obj = data.gameData.players;
       // var keys = Object.keys(obj);

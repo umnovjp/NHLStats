@@ -49,9 +49,11 @@
         <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
           <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
       </div>
-      <p>Date: <input type="text" id="datepicker" onclick = 'getInputValue();'></p>
+      <p>Date: <input type="text" id="datepicker" onchange = 'getInputValue();'></p>
       <div id = 'schedule'></div>
-     
+
+      <button class = 'searchParameter' id = 'comedyImdbButton' value = 'Comedy' onclick='getShifts()'>for future use</button>
+<!--      
       <div id = 'input2'>
         
         <button class = 'searchParameter' id = 'dramaImdbButton' value  = 'Drama'>Print Penalities</button>
@@ -60,8 +62,10 @@
         <button class = 'searchParameter' id = 'comedyImdbButton' value = 'Comedy'>for future use</button>
         <button class = 'searchParameter' id = 'actionImdbButton' value = 'Action'>for future use</button>
               
-      </div> <!--this div creates input area to enter search parameters-->
+      </div> -->
       
+
+       <!--this div creates input area to enter search parameters-->
       <h3 id = 'drama'>Penalties - penalty location figure will be added</h3>
       <div id = 'boxOfDVDsDrama'></div>      
 
