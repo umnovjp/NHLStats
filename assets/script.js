@@ -329,10 +329,12 @@ function getShifts(event) {
   var requestURL = 'https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722';
   fetch(requestURL, {
    "mode": "no-cors",
-
+   'credentials': 'omit',
     "method": "GET", "headers": {
       'Content-Type': 'application/json; charset=utf-8',
-        'Access-Control-Allow-Origin': '192.168.254.18'
+        'Access-Control-Allow-Origin': 'https://www.google.com',
+        'redirect': 'follow',
+        'body': 'JSON.stringify(data)'
     }
   })
 
