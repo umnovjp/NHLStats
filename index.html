@@ -22,8 +22,8 @@
   <body>
     
     <header style="height: 250px;">
-      <h1 style="text-align:center" id = 'top5D'>Game Stats </h1>
-      <h2 style="text-align:center">Tired of Razor and josh telling Stars fans that today we played against the best team in NHL? Check my advanced stats page</h2>
+      <h1 style="text-align:center" id = 'top5D'>Game Stats Inspired by Olga </h1>
+      <h2 style="text-align:center; margin-left:160px">Tired of Razor and Josh telling Stars fans that today we played against the best team in NHL? Tired of Bruce convincing you that Stars lost tonight but they were better team because they won 52% of defensive zone faceoffs? Check my advanced stats page</h2>
       <div>
         <button class = 'yearEntry' style = "background-image: url('./assets/NHL-Logo.png');" onclick ="window.location.href = 'https://www.nhl.com';"></button>
       </div><br>
@@ -44,15 +44,16 @@
     <!--this input is for future use. it will allow user to enter year, which is now set to 2021-->
     <div style = "background-image: url('./assets/background.jpg');" class="main">
 
-      <div>
-        <p>Do not enter anything here. Date entry will be here in the future</p>
-        <input id = 'myInput' style = "margin-top: 5px;" value = 2021 >
-          <button class = 'yearEntry2' style = "margin-top: 5px;"  type = 'button' id = 'enterYear' onclick = 'getInputValue();'>Enter year</button>
-      </div>
+
       <p>Date: <input type="text" id="datepicker" onchange = 'getInputValue();'></p>
       <div id = 'schedule'></div>
 
       <button class = 'searchParameter' id = 'comedyImdbButton' value = 'Comedy' onclick='getShifts()'>for future use</button>
+
+  <!--  <div id="chartDiv" style="width:50%; height:300px; margin:0 auto;">
+        <script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
+<script src="js/index.js"></script>
+      </div>-->  
 <!--      
       <div id = 'input2'>
         
@@ -65,7 +66,7 @@
       </div> -->
       
 
-       <!--this div creates input area to enter search parameters-->
+       <!--this div creates input area to enter search parameters
       <h3 id = 'drama'>Penalties - penalty location figure will be added</h3>
       <div id = 'boxOfDVDsDrama'></div>      
 
@@ -78,7 +79,7 @@
         <div id = 'boxOfDVDsComedy'></div>
 
         <h3 id = 'action'>Top 5 action movies</h3>
-        <div id = 'boxOfDVDsAction'></div>
+        <div id = 'boxOfDVDsAction'></div> -->
     
     </div>
   </section>
