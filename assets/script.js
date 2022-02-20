@@ -125,7 +125,10 @@ faceoffButton.addEventListener('click', getFaceoffs);
                   var newGoal = document.createElement('p');
                   newGoal.innerHTML = 'Period: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime + ' Score: ' + data.liveData.plays.allPlays[scoringPlay].about.goals.away + ' : ' + data.liveData.plays.allPlays[scoringPlay].about.goals.home + ' Shot Location: ' + data.liveData.plays.allPlays[scoringPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[scoringPlay].coordinates.y;
                   document.getElementById('gameInfo').appendChild(newGoal);
-                  // console.log(data.liveData.plays.penaltyPlays[i]);
+                  const arrayGoals = [];
+                  var coordinates = { x : data.liveData.plays.allPlays[scoringPlay].coordinates.x, y : data.liveData.plays.allPlays[scoringPlay].coordinates.y};
+                  arrayGoals.push(coordinates)
+                  console.log(arrayGoals);
                   for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
                     var goalEvent = document.createElement('span');
                     
