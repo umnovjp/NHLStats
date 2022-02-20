@@ -1,9 +1,11 @@
 var scheduleContent = document.getElementById('schedule');
-const gameId = 2021020722;
-var movieTitle;
-var object1;
+var gameId;
+// var movieTitle;
+// var object1;
 var inputVal = '2021';
-var inputYear = 2021;
+// var inputYear = 2021;
+const homeRosterArray = [];
+const awayRosterArray = [];
 //const fs = require('fs');
 
 // two lines below will allow user to search by year
@@ -55,6 +57,7 @@ function getInputValue() {
         gameNumber = idxNumber[1];
 
         const gameId = data.dates[0].games[gameNumber].gamePk;
+        console.log(gameId);
         var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
         fetch(requestURL, {
           "method": "GET", "headers": {
@@ -94,6 +97,12 @@ rosterButton.textContent = 'Print Rosters';
 document.getElementById('gameInfo').appendChild(rosterButton);
 rosterButton.addEventListener('click', getRoster);
 
+var faceoffButton = document.createElement('button');
+faceoffButton.setAttribute('class', 'searchParameter');
+faceoffButton.textContent = 'Get faceoffs stats';
+document.getElementById('gameInfo').appendChild(faceoffButton);
+faceoffButton.addEventListener('click', getFaceoffs);
+
           });
           function getGoals(event) {
             var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
@@ -119,8 +128,28 @@ rosterButton.addEventListener('click', getRoster);
                   // console.log(data.liveData.plays.penaltyPlays[i]);
                   for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
                     var goalEvent = document.createElement('span');
+                    
                     goalEvent.innerHTML = 'Name: ' + data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName + ' Type: ' + data.liveData.plays.allPlays[scoringPlay].players[j].playerType;
                     document.getElementById('gameInfo').appendChild(goalEvent);
+
+                    if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Scorer')
+                    { var goal = document.createElement('span');
+                    goal.innerHTML = 'G';
+                    const scorer = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
+                    document.getElementById(scorer).appendChild(goal);
+                  }
+                  else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Assist')
+                  { var assist = document.createElement('span');
+                  assist.innerHTML = 'A';
+                  const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
+                  document.getElementById(assistant).appendChild(assist);
+                }
+                else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Goalie')
+                { var goal = document.createElement('span');
+                goal.innerHTML = 'Allowed';
+                const Goalie = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
+                document.getElementById(Goalie).appendChild(goal);
+              }
                   }
                 }
               });
@@ -207,25 +236,70 @@ console.log('u r in get roster');
                 homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
                 homeRoster.setAttribute('id', 'homeTeamId');
                 document.getElementById('gameInfo').appendChild(homeRoster);
+                const homeRosterArray = [];
+                const awayRosterArray = [];
           
                 for (var i = 0; i < keys.length; i++) {
                   var val = obj[keys[i]];
-          
+          const playerName1 =val.fullName;
+          const lastName = val.lastName;
+          const primaryNumber1 = val.primaryNumber;
+          const tempAttribute = playerName1;
                   var playerName = document.createElement('p');
-                  playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' shoots:' + val.shootsCatches;
+                  playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' shoots or catches:' + val.shootsCatches + ' ';
+                  playerName.setAttribute('id', tempAttribute);
                   if (val.currentTeam.id == data.gameData.teams.away.id) {
                     document.getElementById('awayTeamId').appendChild(playerName);
+                    awayRosterArray.push(primaryNumber1);
+                    awayRosterArray.push(playerName1);
                   }
                   else if (val.currentTeam.id == data.gameData.teams.home.id) {
                     //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
                     document.getElementById('homeTeamId').appendChild(playerName);
-                  }
+                    homeRosterArray.push(primaryNumber1);
+                    homeRosterArray.push(playerName1);
+                  }                  
                 }
+                console.log(homeRosterArray);
+                console.log(awayRosterArray);
               });
+          }
+          function getFaceoffs(event) {
+            var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+            fetch(requestURL, {
+              "method": "GET"
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                console.log(data.liveData.plays);
+                console.log(gameId);
+          
+                for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
+                   if (data.liveData.plays.allPlays[i].result.event == 'Faceoff')
+          {
+            console.log(data.liveData.plays.allPlays[i].result);
+          const descript = data.liveData.plays.allPlays[i].result.description
+          descriptArray = descript.split(' faceoff');
+          descriptArray2 = descriptArray[1].split('against ');
+          fullNameWon = descriptArray[0];
+          FullNameLost = descriptArray2[1];
+        //  console.log(fullNameWon + 'lost ' + FullNameLost);
+          var foWin = document.createElement('span');
+          var foLoss = document.createElement('span');
+          foWin.innerHTML = 'W';
+          foLoss.innerHTML= 'L';
+          document.getElementById(fullNameWon).appendChild(foWin);
+          document.getElementById(FullNameLost).appendChild(foLoss);
+                }
+              }});
           }
       }}
     );
 }
+
+
 
 
 function getShifts(event) {
