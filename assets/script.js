@@ -119,16 +119,17 @@ faceoffButton.addEventListener('click', getFaceoffs);
                 goalTitle.setAttribute('id', 'drama');
                 goalTitle.innerHTML = 'Goals - shot location figure will be added';
                 document.getElementById('gameInfo').appendChild(goalTitle);
+                const arrayGoals = [];
           
                 for (i = 0; i < data.liveData.plays.scoringPlays.length; i++) {
                   scoringPlay = data.liveData.plays.scoringPlays[i];
                   var newGoal = document.createElement('p');
                   newGoal.innerHTML = 'Period: ' + data.liveData.plays.allPlays[scoringPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[scoringPlay].about.periodTime + ' Score: ' + data.liveData.plays.allPlays[scoringPlay].about.goals.away + ' : ' + data.liveData.plays.allPlays[scoringPlay].about.goals.home + ' Shot Location: ' + data.liveData.plays.allPlays[scoringPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[scoringPlay].coordinates.y;
                   document.getElementById('gameInfo').appendChild(newGoal);
-                  const arrayGoals = [];
+                  
                   var coordinates = { x : data.liveData.plays.allPlays[scoringPlay].coordinates.x, y : data.liveData.plays.allPlays[scoringPlay].coordinates.y};
-                  arrayGoals.push(coordinates)
-                  console.log(arrayGoals);
+                  arrayGoals.push(coordinates);
+                  
                   for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
                     var goalEvent = document.createElement('span');
                     
@@ -153,8 +154,10 @@ faceoffButton.addEventListener('click', getFaceoffs);
                 const Goalie = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
                 document.getElementById(Goalie).appendChild(goal);
               }
-                  }
+                  }                  
                 }
+                console.log(arrayGoals);
+
               });
           }
           function getPenalties(event) {

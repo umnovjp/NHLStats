@@ -18,7 +18,7 @@
   </script>
 
   </head>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <body>
     
     <header style="height: 250px;">
@@ -85,7 +85,31 @@
   </section>
 
     <script src = "./assets/script.js"></script>
+<div style="margin-left: 160px;">
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+<script>
 
+  var arrayGoals = [{x: -58, y: 11}, {x: -90, y: -6}, {x: 77, y: -2}, {x: -57, y: 22}, {x: 63, y: 12}, {x: -67, y: -1}, {x: 83, y: -8}]
+
+new Chart("myChart", {
+                  type: "scatter",
+                  data: {
+                    datasets: [{
+                      pointRadius: 4,
+                      pointBackgroundColor: "rgb(0,0,255)",
+                      data: arrayGoals
+                    }]
+                  },
+                  options: {
+                    legend: {display: false},
+                    scales: {
+                      xAxes: [{ticks: {min: -100, max:100}}],
+                      yAxes: [{ticks: {min: -100, max:100}}],
+                    }
+                  }
+                });
+</script>
+</div>
   </body>
 
 </html>
