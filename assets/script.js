@@ -157,9 +157,10 @@ faceoffButton.addEventListener('click', getFaceoffs);
                   }                  
                 }
                 console.log(arrayGoals);
-
+               
+                
               });
-          }
+          };
           function getPenalties(event) {
 
             var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
