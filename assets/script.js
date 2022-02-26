@@ -7,6 +7,7 @@ var inputVal = '2021';
 const homeRosterArray = [];
 const awayRosterArray = [];
 //const fs = require('fs');
+var rosterArray;
 
 // two lines below will allow user to search by year
 function getInputValue() {
@@ -102,6 +103,18 @@ faceoffButton.setAttribute('class', 'searchParameter');
 faceoffButton.textContent = 'Get faceoffs stats';
 document.getElementById('gameInfo').appendChild(faceoffButton);
 faceoffButton.addEventListener('click', getFaceoffs);
+
+var blockedButton = document.createElement('button');
+blockedButton.setAttribute('class', 'searchParameter');
+blockedButton.textContent = 'Print Blocked Shots';
+document.getElementById('gameInfo').appendChild(blockedButton);
+blockedButton.addEventListener('click', getBlockedShots);
+
+var missedButton = document.createElement('button');
+missedButton.setAttribute('class', 'searchParameter');
+missedButton.textContent = 'Print Missed Shots';
+document.getElementById('gameInfo').appendChild(missedButton);
+missedButton.addEventListener('click', getMissedShots);
 
           });
           function getGoals(event) {
@@ -304,6 +317,7 @@ console.log('u r in get roster');
                     document.getElementById('awayTeamId').appendChild(playerName);
                     awayRosterArray.push(primaryNumber1);
                     awayRosterArray.push(playerName1);
+              rosterArray = awayRosterArray;
                   }
                   else if (val.currentTeam.id == data.gameData.teams.home.id) {
                     //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
@@ -347,6 +361,89 @@ console.log('u r in get roster');
                 }
               }});
           }
+          function getBlockedShots(event) {
+            var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+            fetch(requestURL, {
+              "method": "GET"
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+               
+          //      console.log(gameId);
+          
+                for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
+              //    console.log(data.liveData.plays.allPlays[i].result.event);
+                   if (data.liveData.plays.allPlays[i].result.event == 'Blocked Shot')
+          {
+    //        console.log(data.liveData.plays.allPlays[i].result.description);
+          const descript = data.liveData.plays.allPlays[i].result.description;
+          descriptArray = descript.split(' shot');
+          descriptArray2 = descriptArray[2].split('by ');
+          fullNameBlocker = descriptArray[0];
+          FullNameShooter = descriptArray2[1];
+     //    console.log(fullNameBlocker + 'blocked' + FullNameShooter);
+          var foWin = document.createElement('span');
+          var foLoss = document.createElement('span');
+          foWin.innerHTML = 'BL';
+          foLoss.innerHTML= 'SB';
+          document.getElementById(fullNameBlocker).appendChild(foWin);
+          document.getElementById(FullNameShooter).appendChild(foLoss);
+                }
+              }});
+          const currentPlayer = document.getElementById(rosterArray[9]);
+          console.log(currentPlayer);
+
+            }
+            function getMissedShots(event) {
+              var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+              fetch(requestURL, {
+                "method": "GET"
+              })
+                .then(function (response) {
+                  return response.json();
+                })
+                .then(function (data) {
+                 
+            //      console.log(gameId);
+            
+                  for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
+                //    console.log(data.liveData.plays.allPlays[i].result.event);
+                     if (data.liveData.plays.allPlays[i].result.event == 'Missed Shot')
+            {
+      //        
+            const descript = data.liveData.plays.allPlays[i].result.description;
+            if (descript.includes(' Wide of Net')){
+            descriptArray = descript.split(' Wide of Net');          
+            console.log(descriptArray);
+            fullNameMissed = descriptArray[0];
+            var foWin = document.createElement('span');
+            foWin.innerHTML = 'MW';
+            document.getElementById(fullNameMissed).appendChild(foWin);}
+            else if (descript.includes(' Over of Net')){
+              descriptArray = descript.split(' Over of Net');            
+              console.log(descriptArray);
+              fullNameMissed = descriptArray[0];
+              var foWin = document.createElement('span');
+              foWin.innerHTML = 'MO';
+              document.getElementById(fullNameMissed).appendChild(foWin);}
+
+      //      console.log(descriptArray);
+      //       descriptArray2 = descriptArray[2].split('by ');
+      //       fullNameBlocker = descriptArray[0];
+      //       FullNameShooter = descriptArray2[1];
+      //  //    console.log(fullNameBlocker + 'blocked' + FullNameShooter);
+      //       var foWin = document.createElement('span');
+      //       var foLoss = document.createElement('span');
+      //       foWin.innerHTML = 'BL';
+      //       foLoss.innerHTML= 'SB';
+            
+      //       document.getElementById(FullNameShooter).appendChild(foLoss);
+                  }
+                }});
+         
+              }
       }}
     );
 }
