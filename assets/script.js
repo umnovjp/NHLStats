@@ -157,7 +157,29 @@ faceoffButton.addEventListener('click', getFaceoffs);
                   }                  
                 }
                 console.log(arrayGoals);
-               
+              //   var newChart = document.createElement('canvas');
+              //   newChart.setAttribute('height', '400px');
+              //   newChart.setAttribute('width', '500px');
+              // document.getElementById('goalsChart').appendChild(newChart);
+           //   var arrayGoals = [{x: -58, y: 11}, {x: -90, y: -6}]
+
+new Chart("myChart", {
+                  type: "scatter",
+                  data: {
+                    datasets: [{
+                      pointRadius: 4,
+                      pointBackgroundColor: "rgb(0,0,255)",
+                      data: arrayGoals
+                    }]
+                  },
+                  options: {
+                    legend: {display: false},
+                    scales: {
+                      xAxes: [{ticks: {min: -100, max:100}}],
+                      yAxes: [{ticks: {min: -100, max:100}}],
+                    }
+                  }
+                });
                 
               });
           };
@@ -198,6 +220,7 @@ faceoffButton.addEventListener('click', getFaceoffs);
                 console.log(data.liveData.plays.allPlays.length);
                 console.log(data.liveData.plays.penaltyPlays.length);
                 console.log(data.liveData.plays.scoringPlays.length);
+                const arraypenalties = [];
           
                 for (i = 0; i < data.liveData.plays.penaltyPlays.length; i++) {
                   penaltyPlay = data.liveData.plays.penaltyPlays[i];
@@ -205,15 +228,37 @@ faceoffButton.addEventListener('click', getFaceoffs);
           
                   penaltyData.innerHTML = ' Period: ' + data.liveData.plays.allPlays[penaltyPlay].about.period + ' Time: ' + data.liveData.plays.allPlays[penaltyPlay].about.periodTime + ', ' + data.liveData.plays.allPlays[penaltyPlay].result.penaltyMinutes + ' minutes, ' + 'Penalty Location: ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.x + ' : ' + data.liveData.plays.allPlays[penaltyPlay].coordinates.y;
                   document.getElementById('gameInfo').appendChild(penaltyData);
+                  var coordinates = { x : data.liveData.plays.allPlays[penaltyPlay].coordinates.x, y : data.liveData.plays.allPlays[penaltyPlay].coordinates.y};
+                  arraypenalties.push(coordinates);
+              //    console.log(arraypenalties);
           
                   for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++) {
-                    console.log(data.liveData.plays);
+               //     console.log(data.liveData.plays);
                     var penaltyEvent2 = document.createElement('span');
                     penaltyEvent2.innerHTML = data.liveData.plays.allPlays[penaltyPlay].result.description;
                     document.getElementById('gameInfo').appendChild(penaltyEvent2);
                   }
                 }
+                new Chart("penaltyChart", {
+                  type: "scatter",
+                  data: {
+                    datasets: [{
+                      pointRadius: 4,
+                      pointBackgroundColor: "rgb(0,0,255)",
+                      data: arraypenalties
+                    }]
+                  },
+                  options: {
+                    legend: {display: false},
+                    scales: {
+                      xAxes: [{ticks: {min: -100, max:100}}],
+                      yAxes: [{ticks: {min: -100, max:100}}],
+                    }
+                  }
+                });
               });
+      //        console.log(arraypenalties);
+              
           }
           function getRoster(event) {
             var genre = event.currentTarget.value;
