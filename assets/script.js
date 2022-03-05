@@ -345,7 +345,7 @@ console.log('u r in get roster');
                 for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
                    if (data.liveData.plays.allPlays[i].result.event == 'Faceoff')
           {
-            console.log(data.liveData.plays.allPlays[i].result);
+        //    console.log(data.liveData.plays.allPlays[i].result);
           const descript = data.liveData.plays.allPlays[i].result.description
           descriptArray = descript.split(' faceoff');
           descriptArray2 = descriptArray[1].split('against ');
@@ -372,8 +372,10 @@ console.log('u r in get roster');
               .then(function (data) {
                
           //      console.log(gameId);
-          
+     //     var count1 = 0;
+     //    var count2 = 0;
                 for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
+            
               //    console.log(data.liveData.plays.allPlays[i].result.event);
                    if (data.liveData.plays.allPlays[i].result.event == 'Blocked Shot')
           {
@@ -390,10 +392,22 @@ console.log('u r in get roster');
           foLoss.innerHTML= 'SB';
           document.getElementById(fullNameBlocker).appendChild(foWin);
           document.getElementById(FullNameShooter).appendChild(foLoss);
+       //   count1++;
+        //  count2++;
+       //   console.log(count1, count2);
                 }
               }});
-          const currentPlayer = document.getElementById(rosterArray[9]);
-          console.log(currentPlayer);
+          const currentPlayer = document.getElementById(rosterArray[23]);
+          
+    //      var playerData = {BShot: count1, SBlock: count2}; Uncaught (in promise) TypeError: Assignment to constant variable. at script.js:395:17
+      //    string0 = JSON.stringify(currentPlayer)
+      //   const array1 = string0.split("</span>");
+          
+          console.log(currentPlayer.textContent);
+          console.log(typeof currentPlayer.textContent);
+          
+         // const array2 = 
+        //  console.log(array1);
 
             }
             function getMissedShots(event) {
@@ -416,11 +430,13 @@ console.log('u r in get roster');
             const descript = data.liveData.plays.allPlays[i].result.description;
             if (descript.includes(' Wide of Net')){
             descriptArray = descript.split(' Wide of Net');          
-            console.log(descriptArray);
+           // console.log(descript);
             fullNameMissed = descriptArray[0];
             var foWin = document.createElement('span');
             foWin.innerHTML = 'MW';
-            document.getElementById(fullNameMissed).appendChild(foWin);}
+            //console.log(foWin);
+            document.getElementById(fullNameMissed).appendChild(foWin);
+        }
             else if (descript.includes(' Over of Net')){
               descriptArray = descript.split(' Over of Net');            
               console.log(descriptArray);
