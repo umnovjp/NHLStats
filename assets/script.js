@@ -116,6 +116,12 @@ missedButton.textContent = 'Print Missed Shots';
 document.getElementById('gameInfo').appendChild(missedButton);
 missedButton.addEventListener('click', getMissedShots);
 
+var shotsButton = document.createElement('button');
+shotsButton.setAttribute('class', 'searchParameter');
+shotsButton.textContent = 'Print Shots';
+document.getElementById('gameInfo').appendChild(shotsButton);
+shotsButton.addEventListener('click', getShots);
+
           });
           function getGoals(event) {
             var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
@@ -361,6 +367,39 @@ console.log('u r in get roster');
                 }
               }});
           }
+
+          function getShots(event) {
+            var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+            fetch(requestURL, {
+              "method": "GET"
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                console.log(data.liveData.plays);
+                console.log(gameId);
+          
+                for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
+                   if (data.liveData.plays.allPlays[i].result.event == 'Shot')
+          {
+            console.log(data.liveData.plays.allPlays[i].players);
+          // const descript = data.liveData.plays.allPlays[i].result.description
+          // descriptArray = descript.split(' ');
+          // descriptArray2 = descriptArray[1].split('against ');
+          fullNameShooter = data.liveData.plays.allPlays[i].players;
+     //     FullNameSavior = data.liveData.plays.allPlays[i].players.1;
+          console.log(typeof data.liveData.plays.allPlays[i].players + Object.keys(data.liveData.plays.allPlays[i].players));
+          // var foWin = document.createElement('span');
+          // var foLoss = document.createElement('span');
+          // foWin.innerHTML = 'SH,';
+          // foLoss.innerHTML= 'SV,';
+          // document.getElementById(fullNameShooter).appendChild(foWin);
+          // document.getElementById(FullNameSavior).appendChild(foLoss);
+                }
+              }});
+          }
+
           function getBlockedShots(event) {
             var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
             fetch(requestURL, {
