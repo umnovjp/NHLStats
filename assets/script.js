@@ -1,7 +1,5 @@
 var scheduleContent = document.getElementById('schedule');
 var gameId;
-// var movieTitle;
-// var object1;
 var inputVal = '2021';
 // var inputYear = 2021;
 const homeRosterArray = [];
