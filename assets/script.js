@@ -1,7 +1,6 @@
 var scheduleContent = document.getElementById('schedule');
 var gameId;
 var inputVal = '2021';
-// var inputYear = 2021;
 const homeRosterArray = [];
 const awayRosterArray = [];
 //const fs = require('fs');
