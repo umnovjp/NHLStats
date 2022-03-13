@@ -388,17 +388,10 @@ function getInputValue() {
 
               for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
                 if (data.liveData.plays.allPlays[i].result.event == 'Shot') {
-                  console.log(data.liveData.plays.allPlays[i].players);
-                  // const descript = data.liveData.plays.allPlays[i].result.description
-                  // descriptArray = descript.split(' ');
-                  // descriptArray2 = descriptArray[1].split('against ');
-                  fullNameShooter = data.liveData.plays.allPlays[i].players;
-                  //  const one = 1;
+        //          console.log(data.liveData.plays.allPlays[i].players);
+                    fullNameShooter = data.liveData.plays.allPlays[i].players;
                   const onestring = data.liveData.plays.allPlays[i].players;
-                  const one = JSON.stringify(onestring);
-                  //  const zerostring = zero.toString();
-                  //  const testArray = [onestring, zerostring];
-                  //  console.log(one.textContent);          
+                  const one = JSON.stringify(onestring);        
                   testArray = one.split("fullName");
                   name1 = testArray[1].slice(3);
                   name1array = name1.split('"');
@@ -406,7 +399,7 @@ function getInputValue() {
                   name2 = testArray[2].slice(3);
                   name2array = name2.split('"');
                   fullNameSavior = name2array[0];
-                  console.log(testArray, fullNameShooter, fullNameSavior);
+         //         console.log(testArray, fullNameShooter, fullNameSavior);
          //         console.log(data.liveData.plays.allPlays[i].coordinates);
                   var foWin = document.createElement('span');
                   var foLoss = document.createElement('span');
@@ -421,12 +414,10 @@ function getInputValue() {
                   
                    else if (document.getElementById('gameInfoHome').textContent.includes(fullNameShooter))
                    {arrayShotsHome.push(coordinates)} 
-                   else _console.log('error');
+                   else console.log('error');
                 }
-
               }
-          //    tempVar = document.getElementById('awayTeamid');
-              console.log(arrayShots);
+   //           console.log(arrayShots);
               new Chart("shotsChart", {
                 type: "scatter",
                 data: {
@@ -443,7 +434,8 @@ function getInputValue() {
                 ]
                 },
                 options: {
-                  legend: { display: false },                
+                  legend: { display: true,
+                  text: 'Road team' },                
                     title: {
                         display: true,
                         text: 'Shots on goals'                  
@@ -455,7 +447,6 @@ function getInputValue() {
                 }
               });
               console.log(arrayShotsHome);
-
                    console.log(arrayShotsRoad);
             });
         }
@@ -469,33 +460,63 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-
-              //      console.log(gameId);
-              //     var count1 = 0;
-              //    var count2 = 0;
+              const arrayBlockedShotsHome = [];
+              const arrayBlockedShotsRoad = [];
               for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-
-                //    console.log(data.liveData.plays.allPlays[i].result.event);
                 if (data.liveData.plays.allPlays[i].result.event == 'Blocked Shot') {
-                  //        console.log(data.liveData.plays.allPlays[i].result.description);
                   const descript = data.liveData.plays.allPlays[i].result.description;
                   descriptArray = descript.split(' shot');
                   descriptArray2 = descriptArray[2].split('by ');
-                  fullNameBlocker = descriptArray[0];
-                  FullNameShooter = descriptArray2[1];
-                  //    console.log(fullNameBlocker + 'blocked' + FullNameShooter);
+                  fullNameShooter = descriptArray[0];
+                  fullNameBlocker = descriptArray2[1];
                   var foWin = document.createElement('span');
                   var foLoss = document.createElement('span');
-                  foWin.innerHTML = 'BL,';
+                  foWin.innerHTML = 'BL,'; // + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y + ','
                   foLoss.innerHTML = 'SB,';
-                  document.getElementById(fullNameBlocker).appendChild(foWin);
-                  document.getElementById(FullNameShooter).appendChild(foLoss);
-                  //   count1++;
-                  //  count2++;
-                  //   console.log(count1, count2);
+                  document.getElementById(fullNameBlocker).appendChild(foWin); //Gustav Forsling shot blocked shot by Robby Fabbri
+                  document.getElementById(fullNameShooter).appendChild(foLoss); //    Pius Suter shot blocked shot by Radko Gudas Robby Fabbri Robby Fabbri
+                  console.log(foLoss.textContent, fullNameShooter);
+                  var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
+                //  arrayBlockedShots.push(coordinates);
+                  if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
+                  {arrayBlockedShotsRoad.push(coordinates)}                  
+                   else if (document.getElementById('gameInfoHome').textContent.includes(fullNameShooter))
+                   {arrayBlockedShotsHome.push(coordinates)} 
+                   else console.log('error in missed');
                 }
               }
+              new Chart("blockedShotsChart", {
+                type: "scatter",
+                data: {
+                  datasets: [{
+                    pointRadius: 4,
+                    pointBackgroundColor: "rgb(0,0,255)",
+                    data: arrayBlockedShotsHome                    
+                  },
+                  {
+                    pointRadius: 4,
+                    pointBackgroundColor: "rgb(0,255,0)",
+                    data: arrayBlockedShotsRoad               
+                  }
+                ]
+                },
+                options: {
+                  legend: { display: true,
+                  text: 'trial text'},                
+                    title: {
+                        display: true,
+                        text: 'Blocked Shots on goals'                  
+                },
+                  scales: {
+                    xAxes: [{ ticks: { min: -100, max: 100 } }],
+                    yAxes: [{ ticks: { min: -42.5, max: 42.5 } }],
+                  }
+                }
+              });
+              console.log(arrayBlockedShotsHome);
+              console.log(arrayBlockedShotsRoad);
             });
+
           const currentPlayer = document.getElementById(rosterArray[29]);
 
           // var playerData = {BShot: count1, SBlock: count2}; // Uncaught (in promise) TypeError: Assignment to constant variable. at script.js:395:17
@@ -547,45 +568,70 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-
-              //      console.log(gameId);
-
+              const arrayMissedShotsHome = [];
+              const arrayMissedShotsRoad = [];
               for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-                //    console.log(data.liveData.plays.allPlays[i].result.event);
-                if (data.liveData.plays.allPlays[i].result.event == 'Missed Shot') {
-                  //        
+                if (data.liveData.plays.allPlays[i].result.event == 'Missed Shot') {       
                   const descript = data.liveData.plays.allPlays[i].result.description;
                   if (descript.includes(' Wide of Net')) {
                     descriptArray = descript.split(' Wide of Net');
-                    // console.log(descript);
                     fullNameMissed = descriptArray[0];
                     var foWin = document.createElement('span');
-                    foWin.innerHTML = 'MW,';
-                    //console.log(foWin);
+                    foWin.innerHTML = 'MW,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
                     document.getElementById(fullNameMissed).appendChild(foWin);
                   }
-                  else if (descript.includes(' Over of Net')) {
-                    descriptArray = descript.split(' Over of Net');
+                  else if (descript.includes(' Over Net')) {
+                    descriptArray = descript.split(' Over Net');
                     console.log(descriptArray);
                     fullNameMissed = descriptArray[0];
                     var foWin = document.createElement('span');
-                    foWin.innerHTML = 'MO,';
+                    foWin.innerHTML = 'MO,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
                     document.getElementById(fullNameMissed).appendChild(foWin);
                   }
+                  var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
+                  if (document.getElementById('gameInfoAway').textContent.includes(fullNameMissed))
+                  {arrayMissedShotsRoad.push(coordinates);
 
-                  //      console.log(descriptArray);
-                  //       descriptArray2 = descriptArray[2].split('by ');
-                  //       fullNameBlocker = descriptArray[0];
-                  //       FullNameShooter = descriptArray2[1];
-                  //  //    console.log(fullNameBlocker + 'blocked' + FullNameShooter);
-                  //       var foWin = document.createElement('span');
-                  //       var foLoss = document.createElement('span');
-                  //       foWin.innerHTML = 'BL';
-                  //       foLoss.innerHTML= 'SB';
-
-                  //       document.getElementById(FullNameShooter).appendChild(foLoss);
+                  }                  
+                   else if (document.getElementById('gameInfoHome').textContent.includes(fullNameMissed))
+                   {arrayMissedShotsHome.push(coordinates)} 
+                   else console.log('error in missed');
+                  //  var coord = document.createElement('span');
+                  //  coord2 = JSON. stringify(coordinates);
+                  //  coord.innerHTML = coord2;
+                  //  document.getElementById(fullNameMissed).appendChild(coord);
+                   new Chart("missedShotsChart", {
+                    type: "scatter",
+                    data: {
+                      datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: "rgb(0,0,255)",
+                        data: arrayMissedShotsHome                    
+                      },
+                      {
+                        pointRadius: 4,
+                        pointBackgroundColor: "rgb(0,255,0)",
+                        data: arrayMissedShotsRoad               
+                      }
+                    ]
+                    },
+                    options: {
+                      legend: { display: true,
+                      text: 'Road team' },                
+                        title: {
+                            display: true,
+                            text: 'Shots on goals'                  
+                    },
+                      scales: {
+                        xAxes: [{ ticks: { min: -100, max: 100 } }],
+                        yAxes: [{ ticks: { min: -42.5, max: 42.5 } }],
+                      }
+                    }
+                  });
                 }
               }
+              console.log(arrayMissedShotsHome);
+              console.log(arrayMissedShotsRoad);
             });
 
         }
