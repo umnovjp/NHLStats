@@ -472,10 +472,16 @@ function getInputValue() {
                   var foWin = document.createElement('span');
                   var foLoss = document.createElement('span');
                   foWin.innerHTML = 'BL,'; // + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y + ','
-                  foLoss.innerHTML = 'SB,';
+                  foLoss.innerHTML = 'SB,';//<p id="Robby Fabbri">14 Robby Fabbri, C shoots or catches:L,</p>
+                  var check1 = document.getElementById(fullNameBlocker);
+                  var check2 = document.getElementById(fullNameShooter);
+                  if (check1 == null || check2 == null)
+                  {console.log('error in blocked')}
+                  else {
                   document.getElementById(fullNameBlocker).appendChild(foWin); //Gustav Forsling shot blocked shot by Robby Fabbri
                   document.getElementById(fullNameShooter).appendChild(foLoss); //    Pius Suter shot blocked shot by Radko Gudas Robby Fabbri Robby Fabbri
                   console.log(foLoss.textContent, fullNameShooter);
+                  }
                   var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
                 //  arrayBlockedShots.push(coordinates);
                   if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
@@ -575,10 +581,16 @@ function getInputValue() {
                   const descript = data.liveData.plays.allPlays[i].result.description;
                   if (descript.includes(' Wide of Net')) {
                     descriptArray = descript.split(' Wide of Net');
-                    fullNameMissed = descriptArray[0];
+                    fullNameMissed = descriptArray[0];                    
                     var foWin = document.createElement('span');
                     foWin.innerHTML = 'MW,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
+                    console.log(fullNameMissed, foWin.innerHTML);
+                    const check = document.getElementById(fullNameMissed);
+                    if (check == null)
+                    {console.log('error in missed', fullNameMissed)}
+                    else {
                     document.getElementById(fullNameMissed).appendChild(foWin);
+                    }
                   }
                   else if (descript.includes(' Over Net')) {
                     descriptArray = descript.split(' Over Net');
@@ -586,6 +598,12 @@ function getInputValue() {
                     fullNameMissed = descriptArray[0];
                     var foWin = document.createElement('span');
                     foWin.innerHTML = 'MO,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
+                  }
+                    var check1 = document.getElementById(fullNameMissed);
+              //    var check2 = document.getElementById(fullNameShooter);
+                  if (check1 == null)
+                  {console.log('error in missed', fullNameMissed)}
+                  else {
                     document.getElementById(fullNameMissed).appendChild(foWin);
                   }
                   var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
@@ -595,7 +613,7 @@ function getInputValue() {
                   }                  
                    else if (document.getElementById('gameInfoHome').textContent.includes(fullNameMissed))
                    {arrayMissedShotsHome.push(coordinates)} 
-                   else console.log('error in missed');
+                   else console.log('error in missed', fullNameMissed);
                   //  var coord = document.createElement('span');
                   //  coord2 = JSON. stringify(coordinates);
                   //  coord.innerHTML = coord2;
