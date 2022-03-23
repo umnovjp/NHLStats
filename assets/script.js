@@ -320,7 +320,10 @@ function getInputValue() {
                 const primaryNumber1 = val.primaryNumber;
                 const tempAttribute = playerName1;
                 var playerName = document.createElement('p');
-                playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' shoots or catches:' + val.shootsCatches + ',';
+                if (val.primaryPosition.code == 'G')
+                {playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' catches:' + val.shootsCatches + ','}
+                else 
+                {playerName.innerHTML = val.primaryNumber + ' ' + val.fullName + ', ' + val.primaryPosition.code + ' shoots:' + val.shootsCatches + ','};
                 playerName.setAttribute('id', tempAttribute);
                 if (val.currentTeam.id == data.gameData.teams.away.id) {
                   document.getElementById('awayTeamId').appendChild(playerName);
@@ -405,8 +408,14 @@ function getInputValue() {
                   var foLoss = document.createElement('span');
                   foWin.innerHTML = 'SH,';
                   foLoss.innerHTML = 'SV,';
+                  var check1 = document.getElementById(fullNameShooter);
+                  var check2 = document.getElementById(fullNameSavior);
+                  if (check1 == null || check2 == null)
+                  {console.log('error in shots', fullNameShooter)} //Daniel Sprong
+                  else {
                   document.getElementById(fullNameShooter).appendChild(foWin);
                   document.getElementById(fullNameSavior).appendChild(foLoss);
+console.log(fullNameShooter, fullNameSavior)}
                   var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
                   arrayShots.push(coordinates);
                   if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
