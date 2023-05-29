@@ -301,7 +301,7 @@ function getInputValue() {
               var obj = data.gameData.players;
               var keys = Object.keys(obj);
 
-              var awayRoster = document.createElement('h2');
+              var awayRoster = document.createElement('h2'); 
               awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
               awayRoster.setAttribute('id', 'awayTeamId');
               document.getElementById('gameInfoAway').appendChild(awayRoster);
