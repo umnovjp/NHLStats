@@ -16,18 +16,19 @@ function getInputValue() {
   console.log(date);
   var formatted = date[2] + '-' + date[0] + '-' + date[1];
   console.log(formatted)
-  //'https://cors-anywhere.herokuapp.com/https://api-web.nhle.com/v1/schedule/' + formatted;
-  var requestURL = 'https://cors-anywhere.herokuapp.com/https://api-web.nhle.com/v1/schedule/' + formatted;
+  var requestURL = 'https://statsapi.web.nhl.com/api/v1/schedule/?date=' + formatted;
   console.log(requestURL);
-  fetch(requestURL, { "method": "GET", "headers": {
+  fetch(requestURL, {
+    "method": "GET", "headers": {
     }
   })
+
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
       console.log('I am in schedule then')
-      console.log(data.gameWeek[0].games);
+      console.log(data.dates[0].games);
       console.log(data.dates[0].games[0].teams.away.leagueRecord);
       var numberOfGames = data.dates[0].games.length;
       // var obj = data.gameData.players;
