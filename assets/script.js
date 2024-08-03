@@ -1,5 +1,5 @@
 var scheduleContent = document.getElementById('schedule');
-var gameId;
+var gameId; var idAwayTeam; var idHomeTeam;
 var inputVal = '2021';
 const homeRosterArray = [];
 const awayRosterArray = [];
@@ -71,6 +71,8 @@ function getInputValue() {
           .then(function (data) {
             console.log('I am in second then')
             console.log(data);
+            idAwayTeam = data.awayTeam.id;
+            idHomeTeam = data.homeTeam.id;
             const gameInfo = document.createElement('section');
             gameInfo.setAttribute('id', 'gameInfo');
             document.getElementById('schedule').appendChild(gameInfo);
@@ -153,6 +155,9 @@ function getInputValue() {
                 document.getElementById('gameInfo').appendChild(newGoal);
                 var coordinates = { x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord };
                 arrayGoals.push(coordinates);
+                var goalEvent = document.createElement('span');
+                goalEvent.innerHTML = 'Goal: ' + data.plays[i].details.scoringPlayerId + ' Assist(s): ' + data.plays[i].details.assist1PlayerId + ', ' + data.plays[i].details.assist2PlayerId;
+                document.getElementById('gameInfo').appendChild(goalEvent);
                 }
               
                 // for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
@@ -315,27 +320,31 @@ function getInputValue() {
               document.getElementById('gameInfoHome').appendChild(homeRoster);
               const homeRosterArray = [];
               const awayRosterArray = [];
+              console.log(idAwayTeam, idHomeTeam);
 
               for (var i = 0; i < keys.length; i++) {
                 var val = obj[keys[i]];
-                console.log(val);
-                const playerName1 = val.firstName;
+                // console.log(val);
+                const playerName1 = val.firstName.default;
                 const lastName = val.lastName.default;
-                const primaryNumber1 = val.lastName.sweaterNumber;
+                const primaryNumber1 = val.sweaterNumber;
                 const tempAttribute = playerName1;
                 var playerName = document.createElement('p');
-                if (val.lastName.positionCode == 'G')
-                {playerName.innerHTML = val.lastName.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.lastName.positionCode + ','}
-                else 
-                {playerName.innerHTML = val.lastName.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.lastName.positionCode + ','};
+                // console.log(val, val.lastName)
+                playerName.innerHTML = val.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.positionCode + ','
+                // if (val.lastName.positionCode == 'G')
+
+                // {playerName.innerHTML = val.lastName.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.lastName.positionCode + ','}
+                // else 
+                // {playerName.innerHTML = val.lastName.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.lastName.positionCode + ','};
                 playerName.setAttribute('id', tempAttribute);
-                if (val.currentTeam.id == data.gameData.teams.away.id) {
+                if (val.teamId === idAwayTeam) {
                   document.getElementById('awayTeamId').appendChild(playerName);
                   awayRosterArray.push(primaryNumber1);
                   awayRosterArray.push(playerName1);
                   rosterArray = awayRosterArray;
                 }
-                else if (val.currentTeam.id == data.gameData.teams.home.id) {
+                else if (val.teamId === idHomeTeam) {
                   //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
                   document.getElementById('homeTeamId').appendChild(playerName);
                   homeRosterArray.push(primaryNumber1);
