@@ -241,27 +241,21 @@ function getInputValue() {
 
               for (var i = 0; i < keys.length; i++) {
                 var val = obj[keys[i]];
-                // console.log(val);
-                const playerName1 = val.firstName.default;
-                const lastName = val.lastName.default;
+                const playerName1 = val.firstName.default + ' ' + val.lastName.default;
+                // const lastName = val.lastName.default;
                 const primaryNumber1 = val.sweaterNumber;
                 const tempAttribute = playerName1;
                 var playerName = document.createElement('p');
-                console.log(val, val.lastName)
-                playerName.innerHTML = val.sweaterNumber + ' ' + playerName1 + ' ' + lastName + ', ' + val.positionCode + ','
+                // console.log(val, val.lastName)
+                playerName.innerHTML = val.sweaterNumber + ' ' + playerName1 + ' ' + ', ' + val.positionCode + ','
                 playerName.setAttribute('id', tempAttribute);
                 if (val.teamId === idAwayTeam) {
                   document.getElementById('awayTeamId').appendChild(playerName);
-                  awayRosterArray.push(primaryNumber1, playerName1, lastName, val.playerId);
-                  // awayRosterArray.push(playerName1);
-                  // awayRosterArray.push(val.playerId);
+                  awayRosterArray.push(primaryNumber1, playerName1, val.playerId);
                   rosterArray = awayRosterArray;
                 }
-                else if (val.teamId === idHomeTeam) {
-                  //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
-                  document.getElementById('homeTeamId').appendChild(playerName);
-                  homeRosterArray.push(primaryNumber1, playerName1, lastName, val.playerId);
-                  // homeRosterArray.push(playerName1);
+                else if (val.teamId === idHomeTeam) { document.getElementById('homeTeamId').appendChild(playerName);
+                  homeRosterArray.push(primaryNumber1, playerName1, val.playerId);
                 }
               }
               console.log(homeRosterArray);
@@ -279,7 +273,7 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-              console.log(awayRosterArray, homeRosterArray);
+              console.log(data);
               var goalTitle = document.createElement('h3');
               goalTitle.setAttribute('id', 'drama');
               goalTitle.innerHTML = 'Goals - shot location figure will be added';
@@ -295,25 +289,32 @@ function getInputValue() {
                 var coordinates = { x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord };
                 arrayGoals.push(coordinates);
                 var goalEvent = document.createElement('span');
-                if (awayRosterArray.includes(data.plays[i].details.scoringPlayerId)) {
-                goalScorerId = awayRosterArray.indexOf(data.plays[i].details.scoringPlayerId);
-                assist1Id = awayRosterArray.indexOf(data.plays[i].details.assist1PlayerId);
-                assist2Id = awayRosterArray.indexOf(data.plays[i].details.assist2PlayerId);
-                goalScorer = awayRosterArray[goalScorerId-2] + ' ' + awayRosterArray[goalScorerId-2];
-                assist1 = awayRosterArray[assist1Id-2] + ' ' + awayRosterArray[assist1Id-2];
-                assist2 = awayRosterArray[assist2Id-2] + ' ' + awayRosterArray[assist2Id-2];
-              }
-                else if (homeRosterArray.includes(data.plays[i].details.scoringPlayerId)) {
-                  goalScorerId = homeRosterArray.indexOf(data.plays[i].details.scoringPlayerId);
-                  assist1Id = homeRosterArray.indexOf(data.plays[i].details.assist1PlayerId);
-                  assist2Id = homeRosterArray.indexOf(data.plays[i].details.assist2PlayerId);
-                  goalScorer = homeRosterArray[goalScorerId-2] // + ' ' + homeRosterArray[goalScorerId-2];
-                  assist1 = homeRosterArray[assist1Id-2] + ' ' + homeRosterArray[assist1Id-2];
-                  assist2 = homeRosterArray[assist2Id-2] + ' ' + homeRosterArray[assist2Id-2];
+
+                for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.scoringPlayerId) {
+                  console.log(data.rosterSpots[j].firstName.default, data.rosterSpots[j].lastName.default)
+                  goalScorer = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                  var goal = document.createElement('span');
+                  goal.innerHTML = 'GO,';
+                  document.getElementById(goalScorer).appendChild(goal);
                 }
-                console.log(awayRosterArray, homeRosterArray)
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.assist1PlayerId) {
+                assist1 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                  var assist = document.createElement('span');
+                  assist.innerHTML = 'AS1,';
+                //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
+                  document.getElementById(assist1).appendChild(assist);
+              }
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.assist2PlayerId) {
+                assist2 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                var assist = document.createElement('span');
+                assist.innerHTML = 'AS2,';
+              //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
+                document.getElementById(assist2).appendChild(assist);
+              }
+              }
+    
                 console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, homeRosterArray.indexOf(data.plays[i].details.scoringPlayerId))
-                goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist(s): ' + data.plays[i].details.assist1PlayerId + ', ' + data.plays[i].details.assist2PlayerId;
+                goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist(s): ' + assist1 + ', ' + assist2;
                 document.getElementById('gameInfo').appendChild(goalEvent);
                 }
               
