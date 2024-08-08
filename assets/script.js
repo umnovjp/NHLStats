@@ -258,12 +258,10 @@ function getInputValue() {
                   homeRosterArray.push(primaryNumber1, playerName1, val.playerId);
                 }
               }
-              console.log(homeRosterArray);
-              console.log(awayRosterArray);
+              console.log(homeRosterArray, awayRosterArray);
             });
         }
 
-        console.log(awayRosterArray, homeRosterArray);
         function getGoals(event) {
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
@@ -318,24 +316,6 @@ function getInputValue() {
                 document.getElementById('gameInfo').appendChild(goalEvent);
                 }
               
-                // for (j = 0; j < data.liveData.plays.allPlays[scoringPlay].players.length; j++) {
-                //   var goalEvent = document.createElement('span');
-
-                //   goalEvent.innerHTML = 'Name: ' + data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName + ' Type: ' + data.liveData.plays.allPlays[scoringPlay].players[j].playerType;
-                //   document.getElementById('gameInfo').appendChild(goalEvent);
-
-                //   if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Scorer') {
-                //     var goal = document.createElement('span');
-                //     goal.innerHTML = 'GO,';
-                //     const scorer = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
-                //     document.getElementById(scorer).appendChild(goal);
-                //   }
-                //   else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Assist') {
-                //     var assist = document.createElement('span');
-                //     assist.innerHTML = 'AS,';
-                //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
-                //     document.getElementById(assistant).appendChild(assist);
-                //   }
                 //   else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Goalie') {
                 //     var goal = document.createElement('span');
                 //     goal.innerHTML = 'AL,';
@@ -345,12 +325,7 @@ function getInputValue() {
                 // }
               }
               console.log(arrayGoals);
-              //   var newChart = document.createElement('canvas');
-              //   newChart.setAttribute('height', '400px');
-              //   newChart.setAttribute('width', '500px');
-              // document.getElementById('goalsChart').appendChild(newChart);
-              //   var arrayGoals = [{x: -58, y: 11}, {x: -90, y: -6}]
-
+             
               new Chart("myChart", {
                 type: "scatter",
                 data: {
@@ -373,7 +348,7 @@ function getInputValue() {
         };
 
         function getFaceoffs(event) {
-          var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+          var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
             "method": "GET"
           })
@@ -381,26 +356,10 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-              console.log(data.liveData.plays);
-              console.log(gameId);
 
-              for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-                if (data.liveData.plays.allPlays[i].result.event == 'Faceoff') {
-                  //    console.log(data.liveData.plays.allPlays[i].result);
-                  const descript = data.liveData.plays.allPlays[i].result.description
-                  descriptArray = descript.split(' faceoff');
-                  descriptArray2 = descriptArray[1].split('against ');
-                  fullNameWon = descriptArray[0];
-                  FullNameLost = descriptArray2[1];
-                  //  console.log(fullNameWon + 'lost ' + FullNameLost);
-                  var foWin = document.createElement('span');
-                  var foLoss = document.createElement('span');
-                  foWin.innerHTML = 'FW,';
-                  foLoss.innerHTML = 'FL,';
-                  document.getElementById(fullNameWon).appendChild(foWin);
-                  document.getElementById(FullNameLost).appendChild(foLoss);
-                }
-              }
+              for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
+              
+              }}
             });
         }
 
