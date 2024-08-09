@@ -356,9 +356,12 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-
+              console.log(data.rosterSpots);
               for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
-              
+                console.log(i, data.plays[i]);
+               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {console.log('winning', data.rosterSpots[j])}
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) {console.log('losing', data.rosterSpots[j]) }}
+
               }}
             });
         }
