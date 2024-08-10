@@ -359,15 +359,24 @@ function getInputValue() {
               console.log(data.rosterSpots);
               for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
                 console.log(i, data.plays[i]);
-               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {console.log('winning', data.rosterSpots[j])}
-              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) {console.log('losing', data.rosterSpots[j]) }}
+               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {console.log('winning', data.rosterSpots[j])
+              faceOffWinner = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+              var faceOffWin = document.createElement('span');
+              faceOffWin.innerHTML = 'FW,';
+              document.getElementById(faceOffWinner).appendChild(faceOffWin)}
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) {console.log('losing', data.rosterSpots[j]); 
+              faceOffLoser = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+              var faceOffLoss = document.createElement('span');
+              faceOffLoss.innerHTML = 'FL,';
+              document.getElementById(faceOffWinner).appendChild(faceOffLoss)
+            }}
 
               }}
             });
         }
 
         function getShots(event) {
-          var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+          var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
             "method": "GET"
           })
@@ -375,14 +384,13 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-              console.log(data.liveData.plays);
-              console.log(gameId);
+              // console.log(data.liveData.plays);
               const arrayShotsHome = [];
               const arrayShotsRoad = [];
               const arrayShots = [];
 
-              for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-                if (data.liveData.plays.allPlays[i].result.event == 'Shot') {
+              for (i = 0; i < data.plays.length; i++) {
+                if (data.liveData.plays.allPlays[i].result.event == 'Shot-on-goal') {
         //          console.log(data.liveData.plays.allPlays[i].players);
                     fullNameShooter = data.liveData.plays.allPlays[i].players;
                   const onestring = data.liveData.plays.allPlays[i].players;
