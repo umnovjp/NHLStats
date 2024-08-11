@@ -358,13 +358,13 @@ function getInputValue() {
             .then(function (data) {
               console.log(data.rosterSpots);
               for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
-                console.log(i, data.plays[i]);
-               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {console.log('winning', data.rosterSpots[j])
+                // console.log(i, data.plays[i]);
+               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {// console.log('winning', data.rosterSpots[j])
               faceOffWinner = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
               var faceOffWin = document.createElement('span');
               faceOffWin.innerHTML = 'FW,';
               document.getElementById(faceOffWinner).appendChild(faceOffWin)}
-              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) {console.log('losing', data.rosterSpots[j]); 
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) { //console.log('losing', data.rosterSpots[j]); 
               faceOffLoser = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
               var faceOffLoss = document.createElement('span');
               faceOffLoss.innerHTML = 'FL,';
@@ -390,43 +390,43 @@ function getInputValue() {
               const arrayShots = [];
 
               for (i = 0; i < data.plays.length; i++) {
-                if (data.liveData.plays.allPlays[i].result.event == 'Shot-on-goal') {
-        //          console.log(data.liveData.plays.allPlays[i].players);
-                    fullNameShooter = data.liveData.plays.allPlays[i].players;
-                  const onestring = data.liveData.plays.allPlays[i].players;
-                  const one = JSON.stringify(onestring);        
-                  testArray = one.split("fullName");
-                  name1 = testArray[1].slice(3);
-                  name1array = name1.split('"');
-                  fullNameShooter = name1array[0];
-                  name2 = testArray[2].slice(3);
-                  name2array = name2.split('"');
-                  fullNameSavior = name2array[0];
-         //         console.log(testArray, fullNameShooter, fullNameSavior);
-         //         console.log(data.liveData.plays.allPlays[i].coordinates);
-                  var foWin = document.createElement('span');
-                  var foLoss = document.createElement('span');
-                  foWin.innerHTML = 'SH,';
-                  foLoss.innerHTML = 'SV,';
-                  var check1 = document.getElementById(fullNameShooter);
-                  var check2 = document.getElementById(fullNameSavior);
-                  if (check1 == null || check2 == null)
-                  {console.log('error in shots', fullNameShooter)} //Daniel Sprong
-                  else {
-                  document.getElementById(fullNameShooter).appendChild(foWin);
-                  document.getElementById(fullNameSavior).appendChild(foLoss);
-console.log(fullNameShooter, fullNameSavior)}
-                  var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
-                  arrayShots.push(coordinates);
-                  if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
-                  {arrayShotsRoad.push(coordinates)}
+                if (data.plays[i].typeDescKey === 'shot-on-goal') {
+                 console.log(data.plays[i]);
+//                     fullNameShooter = data.liveData.plays.allPlays[i].players;
+//                   const onestring = data.liveData.plays.allPlays[i].players;
+//                   const one = JSON.stringify(onestring);        data.plays[i].typeDescKey==='goal'
+//                   testArray = one.split("fullName");
+//                   name1 = testArray[1].slice(3);
+//                   name1array = name1.split('"');
+//                   fullNameShooter = name1array[0];
+//                   name2 = testArray[2].slice(3);
+//                   name2array = name2.split('"');
+//                   fullNameSavior = name2array[0];
+//                     //         console.log(testArray, fullNameShooter, fullNameSavior);
+//                     //         console.log(data.liveData.plays.allPlays[i].coordinates);
+//                   var foWin = document.createElement('span');
+//                   var foLoss = document.createElement('span');
+//                   foWin.innerHTML = 'SH,';
+//                   foLoss.innerHTML = 'SV,';
+//                   var check1 = document.getElementById(fullNameShooter);
+//                   var check2 = document.getElementById(fullNameSavior);
+//                   if (check1 == null || check2 == null)
+//                   {console.log('error in shots', fullNameShooter)} //Daniel Sprong
+//                   else {
+//                   document.getElementById(fullNameShooter).appendChild(foWin);
+//                   document.getElementById(fullNameSavior).appendChild(foLoss);
+// console.log(fullNameShooter, fullNameSavior)}
+//                   var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
+//                   arrayShots.push(coordinates);
+//                   if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
+//                   {arrayShotsRoad.push(coordinates)}
                   
-                   else if (document.getElementById('gameInfoHome').textContent.includes(fullNameShooter))
-                   {arrayShotsHome.push(coordinates)} 
-                   else console.log('error');
+//                    else if (document.getElementById('gameInfoHome').textContent.includes(fullNameShooter))
+//                    {arrayShotsHome.push(coordinates)} 
+//                    else console.log('error');
                 }
               }
-   //           console.log(arrayShots);
+              // console.log(arrayShots);
               new Chart("shotsChart", {
                 type: "scatter",
                 data: {
@@ -455,8 +455,8 @@ console.log(fullNameShooter, fullNameSavior)}
                   }
                 }
               });
-              console.log(arrayShotsHome);
-                   console.log(arrayShotsRoad);
+             // console.log(arrayShotsHome);
+                //   console.log(arrayShotsRoad);
             });
         }
 
