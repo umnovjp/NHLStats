@@ -392,7 +392,7 @@ function getInputValue() {
               for (i = 0; i < data.plays.length; i++) {
                 if (data.plays[i].typeDescKey === 'shot-on-goal') {
                  console.log(data.plays[i]);
-//                     fullNameShooter = data.liveData.plays.allPlays[i].players;
+                 for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {}}
 //                   const onestring = data.liveData.plays.allPlays[i].players;
 //                   const one = JSON.stringify(onestring);        data.plays[i].typeDescKey==='goal'
 //                   testArray = one.split("fullName");

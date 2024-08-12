@@ -82,3 +82,31 @@ function getGoals(event) {
 
     });
 };
+
+function getFaceoffs(event) {
+  var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
+  fetch(requestURL, {
+    "method": "GET"
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data.rosterSpots);
+      for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
+        // console.log(i, data.plays[i]);
+       for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {// console.log('winning', data.rosterSpots[j])
+      faceOffWinner = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+      var faceOffWin = document.createElement('span');
+      faceOffWin.innerHTML = 'FW,';
+      document.getElementById(faceOffWinner).appendChild(faceOffWin)}
+      else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) { //console.log('losing', data.rosterSpots[j]); 
+      faceOffLoser = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+      var faceOffLoss = document.createElement('span');
+      faceOffLoss.innerHTML = 'FL,';
+      document.getElementById(faceOffWinner).appendChild(faceOffLoss)
+    }}
+
+      }}
+    });
+}
