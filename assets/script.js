@@ -392,7 +392,24 @@ function getInputValue() {
               for (i = 0; i < data.plays.length; i++) {
                 if (data.plays[i].typeDescKey === 'shot-on-goal') {
                  console.log(data.plays[i]);
-                 for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {}}
+                 for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {
+              shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+              var shot = document.createElement('span');
+              shot.innerHTML = 'SH,';
+              document.getElementById(shooter).appendChild(shot);
+              if (data.rosterSpots[j].teamId === data.awayTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                arrayShotsRoad.push(arrayShotsObject)
+              }
+              else if (data.rosterSpots[j].teamId === data.homeTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                arrayShotsHome.push(arrayShotsObject)}
+                 }
+                else if (data.rosterSpots[j].playerId === data.plays[i].details.goalieInNetId) {
+                  savior = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+              var save = document.createElement('span');
+              save.innerHTML = 'SV,';
+              document.getElementById(savior).appendChild(save)
+                }
+                }
 //                   const onestring = data.liveData.plays.allPlays[i].players;
 //                   const one = JSON.stringify(onestring);        data.plays[i].typeDescKey==='goal'
 //                   testArray = one.split("fullName");
@@ -455,8 +472,8 @@ function getInputValue() {
                   }
                 }
               });
-             // console.log(arrayShotsHome);
-                //   console.log(arrayShotsRoad);
+             console.log(arrayShotsHome);
+             console.log(arrayShotsRoad);
             });
         }
 
