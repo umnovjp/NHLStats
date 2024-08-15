@@ -439,7 +439,7 @@ function getInputValue() {
         }
 
         function getBlockedShots(event) {
-          var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+          var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
             "method": "GET"
           })
@@ -449,33 +449,27 @@ function getInputValue() {
             .then(function (data) {
               const arrayBlockedShotsHome = [];
               const arrayBlockedShotsRoad = [];
-              for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-                if (data.liveData.plays.allPlays[i].result.event == 'Blocked Shot') {
-                  const descript = data.liveData.plays.allPlays[i].result.description;
-                  descriptArray = descript.split(' shot');
-                  descriptArray2 = descriptArray[2].split('by ');
-                  fullNameShooter = descriptArray[0];
-                  fullNameBlocker = descriptArray2[1];
-                  var foWin = document.createElement('span');
-                  var foLoss = document.createElement('span');
-                  foWin.innerHTML = 'BL,'; // + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y + ','
-                  foLoss.innerHTML = 'SB,';//<p id="Robby Fabbri">14 Robby Fabbri, C shoots or catches:L,</p>
-                  var check1 = document.getElementById(fullNameBlocker);
-                  var check2 = document.getElementById(fullNameShooter);
-                  if (check1 == null || check2 == null)
-                  {console.log('error in blocked')}
-                  else {
-                  document.getElementById(fullNameBlocker).appendChild(foWin); //Gustav Forsling shot blocked shot by Robby Fabbri
-                  document.getElementById(fullNameShooter).appendChild(foLoss); //    Pius Suter shot blocked shot by Radko Gudas Robby Fabbri Robby Fabbri
-                  console.log(foLoss.textContent, fullNameShooter);
+              for (i = 0; i < data.plays.length; i++) {
+                if (data.plays[i].typeDescKey==='blocked-shot') {
+                  for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.shootingingPlayerId) {
+                    shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                    var blockedShot = document.createElement('span');
+                    blockedShot.innerHTML = 'BS,';
+                    document.getElementById(shooter).appendChild(blockedShot);
+                    if (data.rosterSpots[j].teamId === data.awayTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                    arrayBlockedShotsRoad.push(arrayShotsObject)
                   }
-                  var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
-                //  arrayBlockedShots.push(coordinates);
-                  if (document.getElementById('gameInfoAway').textContent.includes(fullNameShooter))
-                  {arrayBlockedShotsRoad.push(coordinates)}                  
-                   else if (document.getElementById('gameInfoHome').textContent.includes(fullNameShooter))
-                   {arrayBlockedShotsHome.push(coordinates)} 
-                   else console.log('error in missed');
+                  else if (data.rosterSpots[j].teamId === data.homeTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                  arrayBlockedShotsHome.push(arrayShotsObject)}
+                  }
+                else if (data.rosterSpots[j].playerId === data.plays[i].details.blockingPlayerId) {
+                  blocker = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                  var shotBlocked = document.createElement('span');
+                  shotBlocked.innerHTML = 'SB,';
+                  document.getElementById(blocker).appendChild(shotBlocked);
+                }
+                }
+                 
                 }
               }
               new Chart("blockedShotsChart", {
@@ -516,37 +510,37 @@ function getInputValue() {
           //    string0 = JSON.stringify(currentPlayer)
           //   const array1 = string0.split("</span>");
 
-          console.log(currentPlayer.textContent);
+          // console.log(currentPlayer.textContent);
 
-          currentPlayerArray = currentPlayer.textContent.split(',');
-          console.log(currentPlayerArray);
-          count1 = 0;
-          count2 = 0;
-          count3 = 0;
-          count4 = 0;
-          count5 = 0;
-          count6 = 0;
-          count7 = 0;
-          for (i = 0; i < currentPlayerArray.length; i++) {
+          // currentPlayerArray = currentPlayer.textContent.split(',');
+          // console.log(currentPlayerArray);
+          // count1 = 0;
+          // count2 = 0;
+          // count3 = 0;
+          // count4 = 0;
+          // count5 = 0;
+          // count6 = 0;
+          // count7 = 0;
+          // for (i = 0; i < currentPlayerArray.length; i++) {
 
-            if (currentPlayerArray[i] == 'FW')
-              count1++;
-            else if (currentPlayerArray[i] == 'FL')
-              count2++;
-            else if (currentPlayerArray[i] == 'GO')
-              count3++;
-            else if (currentPlayerArray[i] == 'AS')
-              count4++;
-            else if (currentPlayerArray[i] == 'SB')
-              count5++;
-            else if (currentPlayerArray[i] == 'BL')
-              count6++;
-            else if (currentPlayerArray[i] == 'MO')
-              count7++;
-            else if (currentPlayerArray[i] == 'MW')
-              count7++;
-          }
-          console.log(count1, count2, count3, count4, count5, count6, count7);
+          //   if (currentPlayerArray[i] == 'FW')
+          //     count1++;
+          //   else if (currentPlayerArray[i] == 'FL')
+          //     count2++;
+          //   else if (currentPlayerArray[i] == 'GO')
+          //     count3++;
+          //   else if (currentPlayerArray[i] == 'AS')
+          //     count4++;
+          //   else if (currentPlayerArray[i] == 'SB')
+          //     count5++;
+          //   else if (currentPlayerArray[i] == 'BL')
+          //     count6++;
+          //   else if (currentPlayerArray[i] == 'MO')
+          //     count7++;
+          //   else if (currentPlayerArray[i] == 'MW')
+          //     count7++;
+          // }
+          // console.log(count1, count2, count3, count4, count5, count6, count7);
 
           // const array2 = 
           //  console.log(array1);
