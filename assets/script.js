@@ -451,11 +451,11 @@ function getInputValue() {
               const arrayBlockedShotsRoad = [];
               for (i = 0; i < data.plays.length; i++) {
                 if (data.plays[i].typeDescKey==='blocked-shot') {
-                  for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.shootingingPlayerId) {
+                  for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {
                     shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                     var blockedShot = document.createElement('span');
                     blockedShot.innerHTML = 'BS,';
-                    document.getElementById(shooter).appendChild(blockedShot);
+                    document.getElementById(shooter).appendChild(blockedShot);                    
                     if (data.rosterSpots[j].teamId === data.awayTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
                     arrayBlockedShotsRoad.push(arrayShotsObject)
                   }
@@ -467,10 +467,7 @@ function getInputValue() {
                   var shotBlocked = document.createElement('span');
                   shotBlocked.innerHTML = 'SB,';
                   document.getElementById(blocker).appendChild(shotBlocked);
-                }
-                }
-                 
-                }
+                }}}
               }
               new Chart("blockedShotsChart", {
                 type: "scatter",
@@ -547,7 +544,7 @@ function getInputValue() {
 
         }
         function getMissedShots(event) {
-          var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
+          var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
             "method": "GET"
           })
@@ -557,12 +554,12 @@ function getInputValue() {
             .then(function (data) {
               const arrayMissedShotsHome = [];
               const arrayMissedShotsRoad = [];
-              for (i = 0; i < data.liveData.plays.allPlays.length; i++) {
-                if (data.liveData.plays.allPlays[i].result.event == 'Missed Shot') {       
-                  const descript = data.liveData.plays.allPlays[i].result.description;
-                  if (descript.includes(' Wide of Net')) {
-                    descriptArray = descript.split(' Wide of Net');
-                    fullNameMissed = descriptArray[0];                    
+              for (i = 0; i < data.plays.length; i++) {
+                if (data.plays[i].typeDescKey === 'missed-shot') {       
+                  // const descript = data.liveData.plays.allPlays[i].result.description;
+                  if (data.plays[i].details.reason.includes('wide')) {
+                    // descriptArray = descript.split(' Wide of Net');
+                    shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;  
                     var foWin = document.createElement('span');
                     foWin.innerHTML = 'MW,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
                     console.log(fullNameMissed, foWin.innerHTML);
