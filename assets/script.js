@@ -548,83 +548,33 @@ function getInputValue() {
           fetch(requestURL, {
             "method": "GET"
           })
-            .then(function (response) {
-              return response.json();
+            .then(function (response) {return response.json()
             })
             .then(function (data) {
               const arrayMissedShotsHome = [];
               const arrayMissedShotsRoad = [];
               for (i = 0; i < data.plays.length; i++) {
-                if (data.plays[i].typeDescKey === 'missed-shot') {       
-                  // const descript = data.liveData.plays.allPlays[i].result.description;
-                  if (data.plays[i].details.reason.includes('wide')) {
-                    // descriptArray = descript.split(' Wide of Net');
-                    shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;  
-                    var foWin = document.createElement('span');
-                    foWin.innerHTML = 'MW,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
-                    console.log(fullNameMissed, foWin.innerHTML);
-                    const check = document.getElementById(fullNameMissed);
-                    if (check == null)
-                    {console.log('error in missed', fullNameMissed)}
-                    else {
-                    document.getElementById(fullNameMissed).appendChild(foWin);
-                    }
+                for (j=0; j<data.rosterSpots.length; j++) { 
+                if (data.plays[i].typeDescKey === 'missed-shot') {if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {
+                  shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                  if (data.plays[i].details.reason.includes('wide')) {                      
+                    var missedWide = document.createElement('span');
+                    missedWide.innerHTML = 'MW,';
+                    document.getElementById(shooter).appendChild(missedWide);                  
                   }
-                  else if (descript.includes(' Over Net')) {
-                    descriptArray = descript.split(' Over Net');
-                    console.log(descriptArray);
-                    fullNameMissed = descriptArray[0];
-                    var foWin = document.createElement('span');
-                    foWin.innerHTML = 'MO,' + data.liveData.plays.allPlays[i].coordinates.x + ':' + data.liveData.plays.allPlays[i].coordinates.y +',';
+                  else if (data.plays[i].details.reason.includes('above')) {                      
+                    var missedOver = document.createElement('span');
+                    missedOver.innerHTML = 'MO,';
+                    document.getElementById(shooter).appendChild(missedOver);                  
                   }
-                    var check1 = document.getElementById(fullNameMissed);
-              //    var check2 = document.getElementById(fullNameShooter);
-                  if (check1 == null)
-                  {console.log('error in missed', fullNameMissed)}
-                  else {
-                    document.getElementById(fullNameMissed).appendChild(foWin);
-                  }
-                  var coordinates = { x: data.liveData.plays.allPlays[i].coordinates.x, y: data.liveData.plays.allPlays[i].coordinates.y };
-                  if (document.getElementById('gameInfoAway').textContent.includes(fullNameMissed))
-                  {arrayMissedShotsRoad.push(coordinates);
-
-                  }                  
-                   else if (document.getElementById('gameInfoHome').textContent.includes(fullNameMissed))
-                   {arrayMissedShotsHome.push(coordinates)} 
-                   else console.log('error in missed', fullNameMissed);
-                  //  var coord = document.createElement('span');
-                  //  coord2 = JSON. stringify(coordinates);
-                  //  coord.innerHTML = coord2;
-                  //  document.getElementById(fullNameMissed).appendChild(coord);
-                   new Chart("missedShotsChart", {
-                    type: "scatter",
-                    data: {
-                      datasets: [{
-                        pointRadius: 4,
-                        pointBackgroundColor: "rgb(0,0,255)",
-                        data: arrayMissedShotsHome                    
-                      },
-                      {
-                        pointRadius: 4,
-                        pointBackgroundColor: "rgb(0,255,0)",
-                        data: arrayMissedShotsRoad               
-                      }
-                    ]
-                    },
-                    options: {
-                      legend: { display: true,
-                      text: 'Road team' },                
-                        title: {
-                            display: true,
-                            text: 'Shots on goals'                  
-                    },
-                      scales: {
-                        xAxes: [{ ticks: { min: -100, max: 100 } }],
-                        yAxes: [{ ticks: { min: -42.5, max: 42.5 } }],
-                      }
-                    }
-                  });
+                  if (data.rosterSpots[j].teamId === data.awayTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                  arrayMissedShotsRoad.push(arrayShotsObject)
                 }
+                else if (data.rosterSpots[j].teamId === data.homeTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
+                  arrayMissedShotsHome.push(arrayShotsObject)}
+                  }
+                }
+              }
               }
               console.log(arrayMissedShotsHome);
               console.log(arrayMissedShotsRoad);
