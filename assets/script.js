@@ -554,15 +554,15 @@ function getInputValue() {
               const arrayMissedShotsHome = [];
               const arrayMissedShotsRoad = [];
               for (i = 0; i < data.plays.length; i++) {
-                for (j=0; j<data.rosterSpots.length; j++) { 
+                for (j=0; j<data.rosterSpots.length; j++) {
                 if (data.plays[i].typeDescKey === 'missed-shot') {if (data.rosterSpots[j].playerId === data.plays[i].details.shootingPlayerId) {
                   shooter = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
-                  if (data.plays[i].details.reason.includes('wide')) {                      
+                  if (data.plays[i].details.reason.includes('wide')) {
                     var missedWide = document.createElement('span');
                     missedWide.innerHTML = 'MW,';
-                    document.getElementById(shooter).appendChild(missedWide);                  
+                    document.getElementById(shooter).appendChild(missedWide);
                   }
-                  else if (data.plays[i].details.reason.includes('above')) {                      
+                  else if (data.plays[i].details.reason.includes('above')) {
                     var missedOver = document.createElement('span');
                     missedOver.innerHTML = 'MO,';
                     document.getElementById(shooter).appendChild(missedOver);                  
@@ -573,21 +573,39 @@ function getInputValue() {
                 else if (data.rosterSpots[j].teamId === data.homeTeam.id) {arrayShotsObject = {x: data.plays[i].details.xCoord, y: data.plays[i].details.yCoord}
                   arrayMissedShotsHome.push(arrayShotsObject)}
                   }
-                }
-              }
-              }
+                }}}
               console.log(arrayMissedShotsHome);
               console.log(arrayMissedShotsRoad);
+              new Chart("missedShotsChart", {
+                type: "scatter",
+                data: {
+                  datasets: [{pointRadius: 4,
+                    pointBackgroundColor: "rgb(0,0,255)",
+                    label: 'home team blue dot',
+                    data: arrayMissedShotsHome},
+                  {
+                    pointRadius: 4,
+                    pointBackgroundColor: "rgb(0,255,0)",
+                    label: 'road team',
+                    data: arrayMissedShotsRoad}]
+                },
+                options: {
+                  legend: { display: true,
+                  text: 'Road team' },                
+                    title: {
+                        display: true,
+                        text: 'Shots on goals'                  
+                },
+                  scales: {
+                    xAxes: [{ ticks: { min: -100, max: 100 } }],
+                    yAxes: [{ ticks: { min: -42.5, max: 42.5 } }],
+                  }
+                }
+              });
             });
-
-        }
-      }
-    }
+        }}}
     );
 }
-
-
-
 
 function getShifts(event) {
   // var requestURL = './assets/shiftcharts.json'; // former fetch https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722
