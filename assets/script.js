@@ -84,7 +84,7 @@ function getInputValue() {
             document.getElementById('schedule').appendChild(gameInfoAway);
             var gameTitle = document.createElement('h2');
             gameTitle.textContent = '';
-            gameTitle.innerHTML = 'You are watching stats for ' + data.awayTeam.abbrev + ' at ' + data.homeTeam.abbrev + ' game';
+            gameTitle.innerHTML = 'You are watching stats for ' + data.awayTeam.abbrev + ' at ' + data.homeTeam.abbrev + ' game. Click Print Rosters button first, then click other stats buttons you are interested in.';
             document.getElementById('gameInfo').appendChild(gameTitle);
             var penaltyButton = document.createElement('button');
             penaltyButton.setAttribute('class', 'searchParameter');
@@ -295,7 +295,7 @@ function getInputValue() {
                   goal.innerHTML = 'GO,';
                   document.getElementById(goalScorer).appendChild(goal);
                 }
-              else if (data.rosterSpots[j].playerId === data.plays[i].details.assist1PlayerId) {
+              else if ((data.plays[i].details.assist1PlayerId>1000)&&(data.rosterSpots[j].playerId === data.plays[i].details.assist1PlayerId)) {
                 assist1 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                   var assist = document.createElement('span');
                   assist.innerHTML = 'AS1,';
@@ -308,8 +308,7 @@ function getInputValue() {
                 assist.innerHTML = 'AS2,';
               //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
                 document.getElementById(assist2).appendChild(assist);
-              }
-              }
+              }}
     
                 console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, homeRosterArray.indexOf(data.plays[i].details.scoringPlayerId))
                 goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist(s): ' + assist1 + ', ' + assist2;
@@ -368,9 +367,8 @@ function getInputValue() {
               faceOffLoser = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
               var faceOffLoss = document.createElement('span');
               faceOffLoss.innerHTML = 'FL,';
-              document.getElementById(faceOffWinner).appendChild(faceOffLoss)
+              document.getElementById(faceOffLoser).appendChild(faceOffLoss)
             }}
-
               }}
             });
         }
