@@ -134,24 +134,18 @@ function getInputValue() {
 
           var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
           fetch(requestURL, {
-            "method": "GET", "headers": {
-              //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
-              //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
-            }
+            "method": "GET", "headers": { }
           })
 
             .then(function (response) {
               return response.json();
             })
             .then(function (data) {
-              console.log('I am in second then')
+              console.log('I am in second penalties then')
 
               awayTeam1 = data.gameData.teams.away.id;
               homeTeam1 = data.gameData.teams.home.id;
 
-              // var awayTeam = document.createElement('p');
-              // awayTeam.innerHTML = data.gameData.teams.away.name + ' vs ' + data.gameData.teams.home.name;
-              // document.getElementById('input2').appendChild(awayTeam);
               var penaltyTitle = document.createElement('h3');
               penaltyTitle.setAttribute('id', 'drama');
               penaltyTitle.innerHTML = 'Penalties - penalty location figure will be added';
@@ -163,10 +157,6 @@ function getInputValue() {
 
               console.log(data.liveData.decisions);
               console.log(data.liveData.linescore);
-
-              console.log(data.liveData.plays.allPlays.length);
-              console.log(data.liveData.plays.penaltyPlays.length);
-              console.log(data.liveData.plays.scoringPlays.length);
               const arraypenalties = [];
 
               for (i = 0; i < data.liveData.plays.penaltyPlays.length; i++) {
@@ -180,7 +170,6 @@ function getInputValue() {
                 //    console.log(arraypenalties);
 
                 for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++) {
-                  //     console.log(data.liveData.plays);
                   var penaltyEvent2 = document.createElement('span');
                   penaltyEvent2.innerHTML = data.liveData.plays.allPlays[penaltyPlay].result.description;
                   document.getElementById('gameInfo').appendChild(penaltyEvent2);
@@ -204,13 +193,10 @@ function getInputValue() {
                 }
               });
             });
-          //        console.log(arraypenalties);
-
         }
         function getRoster(event) {
-          var genre = event.currentTarget.value;
+          // var genre = event.currentTarget.value;
           console.log('u r in get roster');
-
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
             "method": "GET", "headers": {
@@ -274,12 +260,12 @@ function getInputValue() {
               console.log(data);
               var goalTitle = document.createElement('h3');
               goalTitle.setAttribute('id', 'drama');
-              goalTitle.innerHTML = 'Goals - shot location figure will be added';
+              goalTitle.innerHTML = 'Goals - shot location chart is below';
               document.getElementById('gameInfo').appendChild(goalTitle);
               const arrayGoals = [];
 
               for (i = 0; i < data.plays.length; i++) {
-                if (data.plays[i].typeDescKey==='goal') {console.log(i, data.plays[i]);
+                if (data.plays[i].typeDescKey==='goal') { 
                 scoringPlay = data.plays[i];
                 var newGoal = document.createElement('p');
                 newGoal.innerHTML = 'Period: ' + data.plays[i].periodDescriptor.number + ' Time: ' + data.plays[i].timeInPeriod + ' Score: ' + data.plays[i].details.awayScore + ' : ' + data.plays[i].details.homeScore + ' Shot Location: ' + data.plays[i].details.xCoord + ' : ' + data.plays[i].details.yCoord;
@@ -289,7 +275,7 @@ function getInputValue() {
                 var goalEvent = document.createElement('span');
 
                 for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.scoringPlayerId) {
-                  console.log(data.rosterSpots[j].firstName.default, data.rosterSpots[j].lastName.default)
+                  // console.log(data.rosterSpots[j].firstName.default, data.rosterSpots[j].lastName.default)
                   goalScorer = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                   var goal = document.createElement('span');
                   goal.innerHTML = 'GO,';
@@ -310,11 +296,15 @@ function getInputValue() {
                 document.getElementById(assist2).appendChild(assist);
               }}
     
-                console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, homeRosterArray.indexOf(data.plays[i].details.scoringPlayerId))
-                goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist(s): ' + assist1 + ', ' + assist2;
+               console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, typeof data.plays[i].details.goalieInNetId)
+                
+                if ((data.plays[i].details.assist1PlayerId>1000)&&(data.plays[i].details.assist2PlayerId>1000) ) {goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assists: ' + assist1 + ', ' + assist2}
+                else if ((data.plays[i].details.assist1PlayerId>1000)&&(!data.plays[i].details.assist2PlayerId)) {goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist: ' + assist1}
+                else if (!data.plays[i].details.assist1PlayerId) {goalEvent.innerHTML = 'Goal: ' + goalScorer}
                 document.getElementById('gameInfo').appendChild(goalEvent);
                 }
               
+                else if (typeof data.plays[i].details.goalieInNetId != 'undefined') {console.log(data.plays[i].details.goalieInNetId)}
                 //   else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Goalie') {
                 //     var goal = document.createElement('span');
                 //     goal.innerHTML = 'AL,';
