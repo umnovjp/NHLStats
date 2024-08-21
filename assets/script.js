@@ -84,7 +84,7 @@ function getInputValue() {
             document.getElementById('schedule').appendChild(gameInfoAway);
             var gameTitle = document.createElement('h2');
             gameTitle.textContent = '';
-            gameTitle.innerHTML = 'You are watching stats for ' + data.awayTeam.abbrev + ' at ' + data.homeTeam.abbrev + ' game. Click Print Rosters button first, then click other stats buttons you are interested in.';
+            gameTitle.innerHTML = 'You are watching stats for ' + data.awayTeam.abbrev + ' at ' + data.homeTeam.abbrev + ' game. Click Print Rosters button first, then click other stats buttons you are interested in. Penalties button does not work at this time.';
             document.getElementById('gameInfo').appendChild(gameTitle);
             var penaltyButton = document.createElement('button');
             penaltyButton.setAttribute('class', 'searchParameter');
@@ -302,14 +302,21 @@ function getInputValue() {
                 else if ((data.plays[i].details.assist1PlayerId>1000)&&(!data.plays[i].details.assist2PlayerId)) {goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist: ' + assist1}
                 else if (!data.plays[i].details.assist1PlayerId) {goalEvent.innerHTML = 'Goal: ' + goalScorer}
                 document.getElementById('gameInfo').appendChild(goalEvent);
+
+                if (typeof data.plays[i].details.goalieInNetId === 'number') {console.log(data.plays[i].details.goalieInNetId);
+                  for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.goalieInNetId) {
+                    var goal = document.createElement('span');
+                    goal.innerHTML = 'AL,';
+                    const Goalie = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
+                    document.getElementById(Goalie).appendChild(goal);
+                  }
+                  }
+                }
                 }
               
-                else if (typeof data.plays[i].details.goalieInNetId != 'undefined') {console.log(data.plays[i].details.goalieInNetId)}
+                 
                 //   else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Goalie') {
-                //     var goal = document.createElement('span');
-                //     goal.innerHTML = 'AL,';
-                //     const Goalie = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
-                //     document.getElementById(Goalie).appendChild(goal);
+                
                 //   }
                 // }
               }
@@ -582,7 +589,7 @@ function getInputValue() {
                   text: 'Road team' },                
                     title: {
                         display: true,
-                        text: 'Shots on goals'                  
+                        text: 'Missed shots'
                 },
                   scales: {
                     xAxes: [{ ticks: { min: -100, max: 100 } }],
