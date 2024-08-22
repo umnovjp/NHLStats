@@ -303,23 +303,14 @@ function getInputValue() {
                 else if (!data.plays[i].details.assist1PlayerId) {goalEvent.innerHTML = 'Goal: ' + goalScorer}
                 document.getElementById('gameInfo').appendChild(goalEvent);
 
-                if (typeof data.plays[i].details.goalieInNetId === 'number') {console.log(data.plays[i].details.goalieInNetId);
+                if (typeof data.plays[i].details.goalieInNetId === 'number') {// console.log(data.plays[i].details.goalieInNetId);
                   for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.goalieInNetId) {
                     var goal = document.createElement('span');
                     goal.innerHTML = 'AL,';
                     const Goalie = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                     document.getElementById(Goalie).appendChild(goal);
                   }
-                  }
-                }
-                }
-              
-                 
-                //   else if (data.liveData.plays.allPlays[scoringPlay].players[j].playerType == 'Goalie') {
-                
-                //   }
-                // }
-              }
+                  }}}} // end getGoals function
               console.log(arrayGoals);
              
               new Chart("myChart", {
@@ -341,7 +332,7 @@ function getInputValue() {
               });
 
             });
-        };
+        }
 
         function getFaceoffs(event) {
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
@@ -600,53 +591,4 @@ function getInputValue() {
             });
         }}}
     );
-}
-
-function getShifts(event) {
-  // var requestURL = './assets/shiftcharts.json'; // former fetch https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=2021020722
-  // fetch(requestURL, {
-  //  "mode": "no-cors",
-  //  'credentials': 'omit',
-  //   "method": "GET", "headers": {
-  //    'Content-Type': 'application/json; charset=utf-8',
-  //     'Access-Control-Allow-Origin': 'https://www.google.com',
-  //  //     'redirect': 'follow',
-  // //      'body': 'JSON.stringify(data)'
-  //   }
-  // })
-  fetch('./assets/shiftcharts.json')
-
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data);
-
-      // var obj = data.gameData.players;
-      // var keys = Object.keys(obj);
-
-      // var awayRoster = document.createElement('h2');
-      // awayRoster.innerHTML = data.gameData.teams.away.name + ' Roster ';
-      // awayRoster.setAttribute('id', 'awayTeamId');
-      // document.getElementById('input2').appendChild(awayRoster);
-
-      // var homeRoster = document.createElement('h2');
-      //   homeRoster.innerHTML = data.gameData.teams.home.name + ' Roster ';
-      //   homeRoster.setAttribute('id', 'homeTeamId');
-      //   document.getElementById('input2').appendChild(homeRoster);
-
-      // for (var i = 0; i < keys.length; i++) {
-      //   var val = obj[keys[i]];
-
-      //   var playerName = document.createElement('p');
-      //   playerName.innerHTML = val.fullName + ', ';
-      //   if (val.currentTeam.id == data.gameData.teams.away.id) {
-      //     document.getElementById('awayTeamId').appendChild(playerName);
-      //   }
-      //   else if (val.currentTeam.id == data.gameData.teams.home.id) {
-      // //    console.log(val.fullName + ' ' + val.currentTeam.name + ' ' + val.currentTeam.id + data.gameData.teams.home.id);
-      //     document.getElementById('homeTeamId').appendChild(playerName);
-      //   }
-      // }
-    });
 }
