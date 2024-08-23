@@ -38,8 +38,6 @@ function getInputValue() {
         var gameName = document.createElement('button');
         gameName.setAttribute('id', 'game' + i);
         var idx = gameName.getAttribute('id');
-        // console.log(idx);
-        // gameName.innerHTML = 'Game ' + i + ': ' + data.gameWeek[0].games[i].awayTeam.abbrev + ' ' + data.gameWeek[0].games[i].teams.away.leagueRecord.wins + 'W ' + data.dates[0].games[i].teams.away.leagueRecord.losses + 'L ' + data.dates[0].games[i].teams.away.leagueRecord.ot + 'O vs ' + data.dates[0].games[i].teams.home.team.name + ' ' + data.dates[0].games[i].teams.home.leagueRecord.wins + 'W ' + data.dates[0].games[i].teams.home.leagueRecord.losses + 'L ' + data.dates[0].games[i].teams.home.leagueRecord.ot + 'O ';
         gameName.innerHTML = 'Game ' + i + ': ' + data.gameWeek[0].games[i].awayTeam.abbrev + ' vs ' + data.gameWeek[0].games[i].homeTeam.abbrev;
         document.getElementById('schedule').appendChild(gameName);
         gameName.addEventListener('click', displayGameData);
@@ -56,12 +54,9 @@ function getInputValue() {
 
         const gameId = data.gameWeek[0].games[gameNumber].id;
         console.log(gameId);
-          //'https://cors-anywhere.herokuapp.com/https://api-web.nhle.com/v1/schedule/' + formatted;
         var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
         fetch(requestURL, {
           "method": "GET", "headers": {
-            //   "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
-            //   "x-rapidapi-key": "f567ffdbe0msh246ba4a9ef34553p1195c8jsn6e946070d30d"
           }
         })
 
@@ -151,10 +146,6 @@ function getInputValue() {
               penaltyTitle.innerHTML = 'Penalties - penalty location figure will be added';
               document.getElementById('gameInfo').appendChild(penaltyTitle);
 
-              //   console.log(data.gameData.players.keys);
-              var obj = data.gameData.players;
-              var keys = Object.keys(obj);
-
               console.log(data.liveData.decisions);
               console.log(data.liveData.linescore);
               const arraypenalties = [];
@@ -167,7 +158,6 @@ function getInputValue() {
                 document.getElementById('gameInfo').appendChild(penaltyData);
                 var coordinates = { x: data.liveData.plays.allPlays[penaltyPlay].coordinates.x, y: data.liveData.plays.allPlays[penaltyPlay].coordinates.y };
                 arraypenalties.push(coordinates);
-                //    console.log(arraypenalties);
 
                 for (j = 0; j < data.liveData.plays.allPlays[penaltyPlay].players.length; j++) {
                   var penaltyEvent2 = document.createElement('span');
@@ -195,7 +185,6 @@ function getInputValue() {
             });
         }
         function getRoster(event) {
-          // var genre = event.currentTarget.value;
           console.log('u r in get roster');
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
@@ -228,11 +217,9 @@ function getInputValue() {
               for (var i = 0; i < keys.length; i++) {
                 var val = obj[keys[i]];
                 const playerName1 = val.firstName.default + ' ' + val.lastName.default;
-                // const lastName = val.lastName.default;
                 const primaryNumber1 = val.sweaterNumber;
                 const tempAttribute = playerName1;
                 var playerName = document.createElement('p');
-                // console.log(val, val.lastName)
                 playerName.innerHTML = val.sweaterNumber + ' ' + playerName1 + ' ' + ', ' + val.positionCode + ','
                 playerName.setAttribute('id', tempAttribute);
                 if (val.teamId === idAwayTeam) {
@@ -285,14 +272,12 @@ function getInputValue() {
                 assist1 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                   var assist = document.createElement('span');
                   assist.innerHTML = 'AS1,';
-                //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
                   document.getElementById(assist1).appendChild(assist);
               }
               else if (data.rosterSpots[j].playerId === data.plays[i].details.assist2PlayerId) {
                 assist2 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                 var assist = document.createElement('span');
                 assist.innerHTML = 'AS2,';
-              //     const assistant = data.liveData.plays.allPlays[scoringPlay].players[j].player.fullName;
                 document.getElementById(assist2).appendChild(assist);
               }}
     
