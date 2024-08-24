@@ -262,7 +262,6 @@ function getInputValue() {
                 var goalEvent = document.createElement('span');
 
                 for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.scoringPlayerId) {
-                  // console.log(data.rosterSpots[j].firstName.default, data.rosterSpots[j].lastName.default)
                   goalScorer = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                   var goal = document.createElement('span');
                   goal.innerHTML = 'GO,';
@@ -288,7 +287,7 @@ function getInputValue() {
                 else if (!data.plays[i].details.assist1PlayerId) {goalEvent.innerHTML = 'Goal: ' + goalScorer}
                 document.getElementById('gameInfo').appendChild(goalEvent);
 
-                if (typeof data.plays[i].details.goalieInNetId === 'number') {// console.log(data.plays[i].details.goalieInNetId);
+                if (typeof data.plays[i].details.goalieInNetId === 'number') {
                   for (j=0; j<data.rosterSpots.length; j++) {if (data.rosterSpots[j].playerId === data.plays[i].details.goalieInNetId) {
                     var goal = document.createElement('span');
                     goal.innerHTML = 'AL,';
@@ -330,13 +329,12 @@ function getInputValue() {
             .then(function (data) {
               console.log(data.rosterSpots);
               for (i = 0; i < data.plays.length; i++) {if (data.plays[i].typeDescKey==='faceoff') {
-                // console.log(i, data.plays[i]);
-               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {// console.log('winning', data.rosterSpots[j])
+               for (j=0; j<data.rosterSpots.length; j++) { if (data.rosterSpots[j].playerId === data.plays[i].details.winningPlayerId) {
               faceOffWinner = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
               var faceOffWin = document.createElement('span');
               faceOffWin.innerHTML = 'FW,';
               document.getElementById(faceOffWinner).appendChild(faceOffWin)}
-              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) { //console.log('losing', data.rosterSpots[j]); 
+              else if (data.rosterSpots[j].playerId === data.plays[i].details.losingPlayerId) {
               faceOffLoser = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
               var faceOffLoss = document.createElement('span');
               faceOffLoss.innerHTML = 'FL,';
@@ -357,7 +355,6 @@ function getInputValue() {
             .then(function (data) {
               const arrayShotsHome = [];
               const arrayShotsRoad = [];
-            //  const arrayShots = [];
 
               for (i = 0; i < data.plays.length; i++) {
                 if (data.plays[i].typeDescKey === 'shot-on-goal') {
@@ -379,7 +376,6 @@ function getInputValue() {
               save.innerHTML = 'SV,';
               document.getElementById(savior).appendChild(save)
                 }}}}
-              // console.log(arrayShots);
               new Chart("shotsChart", {
                 type: "scatter",
                 data: {
