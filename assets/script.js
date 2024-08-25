@@ -5,6 +5,7 @@ const homeRosterArray = [];
 const awayRosterArray = [];
 //const fs = require('fs');
 var rosterArray;
+const axios = require('axios');
 
 // two lines below will allow user to search by year
 function getInputValue() {
@@ -122,16 +123,13 @@ function getInputValue() {
             shotsButton.textContent = 'Print Shots';
             document.getElementById('gameInfo').appendChild(shotsButton);
             shotsButton.addEventListener('click', getShots);
-
           });
 
         function getPenalties(event) {
-
           var requestURL = 'https://statsapi.web.nhl.com/api/v1/game/' + gameId + '/feed/live';
           fetch(requestURL, {
             "method": "GET", "headers": { }
           })
-
             .then(function (response) {
               return response.json();
             })
@@ -184,6 +182,14 @@ function getInputValue() {
               });
             });
         }
+        function getPenalties1() {}
+          getPenalties1.prototype.buildUrl= function(gameId) {
+            return `https://statsapi.web.nhl.com/api/v1/game/${gameId}/feed/live`;
+          }
+          getPenalties1.prototype.search=function(gameId) {
+            return axios.get(this.buildUrl(gameId))
+          }
+
         function getRoster(event) {
           console.log('u r in get roster');
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
