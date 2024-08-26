@@ -1,11 +1,10 @@
 var scheduleContent = document.getElementById('schedule');
 var gameId; var idAwayTeam; var idHomeTeam;
 var inputVal = '2021';
-const homeRosterArray = [];
-const awayRosterArray = [];
-//const fs = require('fs');
+const homeRosterArray = []; const awayRosterArray = [];
+// const fs = require('fs');
 var rosterArray;
-const axios = require('axios');
+// const getPenalties1 = require('getPenalties1');
 
 // two lines below will allow user to search by year
 function getInputValue() {
@@ -86,7 +85,7 @@ function getInputValue() {
             penaltyButton.setAttribute('class', 'searchParameter');
             penaltyButton.textContent = 'Print Penalties';
             document.getElementById('gameInfo').appendChild(penaltyButton);
-            penaltyButton.addEventListener('click', getPenalties);
+            penaltyButton.addEventListener('click', getPenalties1);
 
             var goalButton = document.createElement('button');
             goalButton.setAttribute('class', 'searchParameter');
@@ -188,6 +187,8 @@ function getInputValue() {
           }
           getPenalties1.prototype.search=function(gameId) {
             return axios.get(this.buildUrl(gameId))
+            .then (function(data)
+            {console.log(data)})
           }
 
         function getRoster(event) {
