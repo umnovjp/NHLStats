@@ -6,7 +6,7 @@ const homeRosterArray = []; const awayRosterArray = [];
 var rosterArray;
 // const getPenalties1 = require('getPenalties1');
 
-// two lines below will allow user to search by year
+// two lines below will allow user to select a date
 function getInputValue() {
   // var inputVal = document.getElementById('myInput').value;
   var inputVal = document.getElementById('datepicker').value;
@@ -15,11 +15,11 @@ function getInputValue() {
   var date = inputVal.split('/');
   console.log(date);
   var formatted = date[2] + '-' + date[0] + '-' + date[1];
-  console.log(formatted)
-  //'https://cors-anywhere.herokuapp.com/https://api-web.nhle.com/v1/schedule/' + formatted;
+  console.log(formatted);
   var requestURL = 'https://cors-anywhere.herokuapp.com/https://api-web.nhle.com/v1/schedule/' + formatted;
   console.log(requestURL);
-  fetch(requestURL, { "method": "GET", "headers": {
+  fetch(requestURL, { "method": "GET", "headers": 
+  {
     }
   })
     .then(function (response) {
@@ -28,7 +28,6 @@ function getInputValue() {
     .then(function (data) {
       console.log('I am in schedule then')
       console.log(data.gameWeek[0].games);
-    //  console.log(data.gameWeek[0].games[0].teams.away.leagueRecord);
       var numberOfGames = data.gameWeek[0].games.length;
       // var obj = data.gameData.players;
       // var keys = Object.keys(obj);
@@ -251,7 +250,6 @@ function getInputValue() {
               return response.json();
             })
             .then(function (data) {
-              console.log(data);
               var goalTitle = document.createElement('h3');
               goalTitle.setAttribute('id', 'drama');
               goalTitle.innerHTML = 'Goals - shot location chart is below';
@@ -287,7 +285,7 @@ function getInputValue() {
                 document.getElementById(assist2).appendChild(assist);
               }}
     
-               console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, typeof data.plays[i].details.goalieInNetId)
+              //  console.log(data.plays[i].details, data.plays[i].details.scoringPlayerId, typeof data.plays[i].details.goalieInNetId)
                 
                 if ((data.plays[i].details.assist1PlayerId>1000)&&(data.plays[i].details.assist2PlayerId>1000) ) {goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assists: ' + assist1 + ', ' + assist2}
                 else if ((data.plays[i].details.assist1PlayerId>1000)&&(!data.plays[i].details.assist2PlayerId)) {goalEvent.innerHTML = 'Goal: ' + goalScorer + ' Assist: ' + assist1}
@@ -301,7 +299,7 @@ function getInputValue() {
                     const Goalie = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                     document.getElementById(Goalie).appendChild(goal);
                   }
-                  }}}} // end getGoals function
+                  }}}} 
               console.log(arrayGoals);
              
               new Chart("myChart", {
@@ -323,7 +321,7 @@ function getInputValue() {
               });
 
             });
-        }
+        } // end getGoals function
 
         function getFaceoffs(event) {
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
@@ -410,7 +408,7 @@ function getInputValue() {
              console.log(arrayShotsHome);
              console.log(arrayShotsRoad);
             });
-        }
+        } // end getSots function for shots on goal that did not score
 
         function getBlockedShots(event) {
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
