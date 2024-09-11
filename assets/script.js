@@ -32,9 +32,7 @@ function getInputValue() {
       // var obj = data.gameData.players;
       // var keys = Object.keys(obj);
       scheduleContent.textContent = '';
-      for (var i = 0; i < numberOfGames; i++) {
-
-        var gameName = document.createElement('button');
+      for (var i = 0; i < numberOfGames; i++) { var gameName = document.createElement('button');
         gameName.setAttribute('id', 'game' + i);
         var idx = gameName.getAttribute('id');
         gameName.innerHTML = 'Game ' + i + ': ' + data.gameWeek[0].games[i].awayTeam.abbrev + ' vs ' + data.gameWeek[0].games[i].homeTeam.abbrev;
@@ -58,13 +56,11 @@ function getInputValue() {
           "method": "GET", "headers": {
           }
         })
-
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
-            console.log('I am in second then')
-            console.log(data);
+            console.log('I am in second then'); console.log(data);
             idAwayTeam = data.awayTeam.id;
             idHomeTeam = data.homeTeam.id;
             const gameInfo = document.createElement('section');
