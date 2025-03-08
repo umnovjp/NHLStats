@@ -190,10 +190,8 @@ function getInputValue() {
           console.log('u r in get roster');
           var requestURL = 'https://cors-anywhere.herokuapp.com/api-web.nhle.com/v1/gamecenter/' + gameId + '/play-by-play';
           fetch(requestURL, {
-            "method": "GET", "headers": {
-            }
+            "method": "GET", "headers": { }
           })
-
             .then(function (response) {
               return response.json();
             })
@@ -266,7 +264,7 @@ function getInputValue() {
                   goalScorer = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
                   var goal = document.createElement('span');
                   goal.innerHTML = 'GO,';
-                  document.getElementById(goalScorer).appendChild(goal);
+                  document.getElementById('gameInfo').appendChild(goalScorer);
                 }
               else if ((data.plays[i].details.assist1PlayerId>1000)&&(data.rosterSpots[j].playerId === data.plays[i].details.assist1PlayerId)) {
                 assist1 = data.rosterSpots[j].firstName.default + ' ' + data.rosterSpots[j].lastName.default;
